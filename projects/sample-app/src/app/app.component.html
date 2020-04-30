@@ -1,0 +1,17 @@
+<div *ngIf="user$ | async as user">
+  <span>Welcome </span>
+  <span>{{ user?.name }}</span>
+</div>
+
+<div *ngIf="authenticated$ | async; else noAuth">
+  <button (click)="logout()">Logout</button>
+  <button (click)="get()">Get</button>
+</div>
+
+<div>
+  <pre>{{ token }}</pre>
+</div>
+
+<ng-template #noAuth>
+  <button (click)="login()">Login</button>
+</ng-template>

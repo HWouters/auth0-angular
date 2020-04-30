@@ -1,6 +1,116 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "auth0-angular": {
+      "projectType": "library",
+      "root": "projects/auth0-angular",
+      "sourceRoot": "projects/auth0-angular/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/auth0-angular/tsconfig.lib.json",
+            "project": "projects/auth0-angular/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/auth0-angular/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["projects/auth0-angular/tsconfig.lib.json"],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "sample-app": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/sample-app",
+      "sourceRoot": "projects/sample-app/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/sample-app",
+            "index": "projects/sample-app/src/index.html",
+            "main": "projects/sample-app/src/main.ts",
+            "polyfills": "projects/sample-app/src/polyfills.ts",
+            "tsConfig": "projects/sample-app/tsconfig.app.json",
+            "aot": true,
+            "assets": ["projects/sample-app/src/favicon.ico", "projects/sample-app/src/assets"],
+            "styles": ["projects/sample-app/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/sample-app/src/environments/environment.ts",
+                  "with": "projects/sample-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "sample-app:build",
+            "proxyConfig": "proxy.config.json"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "sample-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "sample-app:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["projects/sample-app/tsconfig.app.json"],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  },
+  "defaultProject": "auth0-angular"
 }
