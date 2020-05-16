@@ -7,7 +7,7 @@
     "build": "ng build",
     "test": "jest",
     "lint": "ng lint",
-    "format": "prettier --check \"{projects,cypress}/**/*{.js,.ts,.json,.css,.scss,.html,.yaml}\""
+    "format": "prettier --check \"projects/**/*{.js,.ts,.json,.css,.scss,.html,.yaml}\""
   },
   "private": true,
   "dependencies": {
