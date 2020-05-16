@@ -4,72 +4,80 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-  - task: NodeTool@0
-    displayName: install node
-    inputs:
-      versionSpec: 12.x
+stages:
+  - stage: Build
+    jobs:
+      - job: build
+        steps:
+          - task: NodeTool@0
+            displayName: install node
+            inputs:
+              versionSpec: 12.x
 
-  - task: Npm@1
-    displayName: npm install
-    inputs:
-      command: install
+          - task: Npm@1
+            displayName: npm install
+            inputs:
+              command: install
 
-  - task: Npm@1
-    displayName: formatting
-    inputs:
-      command: custom
-      customCommand: run format
-    condition: succeededOrFailed()
+          - task: Npm@1
+            displayName: formatting
+            inputs:
+              command: custom
+              customCommand: run format
+            condition: succeededOrFailed()
 
-  - task: Npm@1
-    displayName: linting
-    inputs:
-      command: custom
-      customCommand: run lint -- --format vso
-    condition: succeededOrFailed()
+          - task: Npm@1
+            displayName: linting
+            inputs:
+              command: custom
+              customCommand: run lint -- --format vso
+            condition: succeededOrFailed()
 
-  - task: Npm@1
-    displayName: test
-    inputs:
-      command: custom
-      customCommand: run test -- --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura
-    condition: succeededOrFailed()
+          - task: Npm@1
+            displayName: test
+            inputs:
+              command: custom
+              customCommand: run test -- --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura
+            condition: succeededOrFailed()
 
-  - task: PublishTestResults@2
-    displayName: publish test results
-    inputs:
-      testResultsFiles: junit.xml
-      testRunTitle: "Unit Tests"
-      mergeTestResults: true
-      failTaskOnFailedTests: true
-    condition: succeededOrFailed()
+          - task: PublishTestResults@2
+            displayName: publish test results
+            inputs:
+              testResultsFiles: junit.xml
+              testRunTitle: "Unit Tests"
+              mergeTestResults: true
+              failTaskOnFailedTests: true
+            condition: succeededOrFailed()
 
-  - task: PublishCodeCoverageResults@1
-    displayName: publish test coverage
-    inputs:
-      codeCoverageTool: Cobertura
-      summaryFileLocation: coverage/cobertura-coverage.xml
-      failIfCoverageEmpty: true
-    condition: succeededOrFailed()
+          - task: PublishCodeCoverageResults@1
+            displayName: publish test coverage
+            inputs:
+              codeCoverageTool: Cobertura
+              summaryFileLocation: coverage/cobertura-coverage.xml
+              failIfCoverageEmpty: true
+            condition: succeededOrFailed()
 
-  - task: Npm@1
-    displayName: npm build
-    inputs:
-      command: custom
-      customCommand: run build -- auth0-angular --prod
+          - task: Npm@1
+            displayName: npm build
+            inputs:
+              command: custom
+              customCommand: run build -- auth0-angular --prod
 
-  - task: PublishPipelineArtifact@1
-    displayName: publish @auth0/angular
-    inputs:
-      targetPath: $(Pipeline.Workspace)/dist/auth0-angular
-      artifact: '@auth0/angular'
-      publishLocation: pipeline
+          - task: PublishPipelineArtifact@1
+            displayName: publish @auth0/angular
+            inputs:
+              targetPath: $(Pipeline.Workspace)/dist/auth0-angular
+              artifact: 'auth0-angular'
+              publishLocation: pipeline
 
-  # - task: Npm@1
-  #   displayName: npm publish
-  #   inputs:
-  #     command: publish
-  #     workingDir: dist/auth0-angular
-  #     publishRegistry: useFeed
-  #     publishFeed: 36641032-ec0e-44f3-b65d-00055870227b
+  - stage: Publish
+    jobs:
+    - job: publish
+      steps:
+      - task: Npm@1
+        displayName: npm publish
+        inputs:
+          command: publish
+          workingDir: dist/auth0-angular
+          publishRegistry: useFeed
+          publishFeed: 36641032-ec0e-44f3-b65d-00055870227b
