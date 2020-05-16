@@ -24,11 +24,12 @@ steps:
   displayName: npm build
   inputs:
     command: custom
-    customCommand: run build
+    customCommand: run build -- auth0-angular
 
 - task: Npm@1
   displayName: npm publish
   inputs:
     command: publish
+    workingDir: dist
     publishRegistry: useFeed
     publishFeed: 36641032-ec0e-44f3-b65d-00055870227b
