@@ -6,7 +6,7 @@ import { AuthConfig } from './auth-config';
 import { AuthEffects } from './effects/auth.effects';
 import { JwtInterceptor } from './jwt.interceptor';
 import { reducer } from './reducers/auth.reducer';
-import { featureKey } from './state/auth.state';
+import { featureKey } from './store';
 
 @NgModule({
   declarations: [],

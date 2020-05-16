@@ -1,5 +1,3 @@
-export const featureKey = 'auth';
-
 export interface Profile {
   sub: string;
   name?: string;
