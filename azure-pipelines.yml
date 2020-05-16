@@ -79,6 +79,6 @@ stages:
         displayName: npm publish
         inputs:
           command: publish
-          workingDir: dist/auth0-angular
+          workingDir: $(Pipeline.Workspace)/auth0-angular
           publishRegistry: useFeed
           publishFeed: 36641032-ec0e-44f3-b65d-00055870227b
