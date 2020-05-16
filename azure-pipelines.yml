@@ -1,35 +1,44 @@
 trigger:
-- master
+  - master
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: NodeTool@0
-  displayName: Install Node.js
-  inputs:
-    versionSpec: 10.x
+  - task: NodeTool@0
+    displayName: install node
+    inputs:
+      versionSpec: 12.x
 
-# - script: |
-#     npm install
-#     npm run build
-#   displayName: 'npm install and build'
+  - task: Npm@1
+    displayName: npm install
+    inputs:
+      command: install
 
-- task: Npm@1
-  displayName: npm install
-  inputs:
-    command: install
+  - task: Npm@1
+    displayName: formatting
+    inputs:
+      command: custom
+      customCommand: run format
+    condition: succeededOrFailed()
 
-- task: Npm@1
-  displayName: npm build
-  inputs:
-    command: custom
-    customCommand: run build -- auth0-angular --prod
+  - task: Npm@1
+    displayName: linting
+    inputs:
+      command: custom
+      customCommand: run lint -- --format vso
+    condition: succeededOrFailed()
 
-- task: Npm@1
-  displayName: npm publish
-  inputs:
-    command: publish
-    workingDir: dist/auth0-angular
-    publishRegistry: useFeed
-    publishFeed: 36641032-ec0e-44f3-b65d-00055870227b
+  - task: Npm@1
+    displayName: npm build
+    inputs:
+      command: custom
+      customCommand: run build -- auth0-angular --prod
+
+  - task: Npm@1
+    displayName: npm publish
+    inputs:
+      command: publish
+      workingDir: dist/auth0-angular
+      publishRegistry: useFeed
+      publishFeed: 36641032-ec0e-44f3-b65d-00055870227b
