@@ -30,6 +30,30 @@ steps:
     condition: succeededOrFailed()
 
   - task: Npm@1
+    displayName: test
+    inputs:
+      command: custom
+      customCommand: run test -- --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura
+    condition: succeededOrFailed()
+
+  - task: PublishTestResults@2
+    displayName: publish test results
+    inputs:
+      testResultsFiles: junit.xml
+      testRunTitle: "Unit Tests"
+      mergeTestResults: true
+      failTaskOnFailedTests: true
+    condition: succeededOrFailed()
+
+  - task: PublishCodeCoverageResults@1
+    displayName: publish test coverage
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: coverage/cobertura-coverage.xml
+      failIfCoverageEmpty: true
+    condition: succeededOrFailed()
+
+  - task: Npm@1
     displayName: npm build
     inputs:
       command: custom
