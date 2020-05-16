@@ -3,7 +3,15 @@ import { Router } from '@angular/router';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot, Scheduler } from 'jest-marbles';
 import { EMPTY, Observable } from 'rxjs';
-import { completeSignIn, signedIn, signedOut, signIn, signInCompleted, signInFailed, signOut } from '../actions/auth.actions';
+import {
+  completeSignIn,
+  signedIn,
+  signedOut,
+  signIn,
+  signInCompleted,
+  signInFailed,
+  signOut,
+} from '../actions/auth.actions';
 import { AuthService } from '../auth.service';
 import { AuthEffects } from './auth.effects';
 

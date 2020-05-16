@@ -3,7 +3,15 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { asyncScheduler, of } from 'rxjs';
 import { catchError, filter, map, observeOn, switchMap, tap } from 'rxjs/operators';
-import { completeSignIn, signedIn, signedOut, signIn, signInCompleted, signInFailed, signOut } from '../actions/auth.actions';
+import {
+  completeSignIn,
+  signedIn,
+  signedOut,
+  signIn,
+  signInCompleted,
+  signInFailed,
+  signOut,
+} from '../actions/auth.actions';
 import { AuthService } from '../auth.service';
 
 @Injectable()
