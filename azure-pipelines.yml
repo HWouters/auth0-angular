@@ -63,17 +63,18 @@ stages:
               command: custom
               customCommand: run build -- auth0-angular --prod
 
-          - task: PublishPipelineArtifact@1
+          - publish: $(System.DefaultWorkingDirectory)/dist/auth0-angular
             displayName: publish @auth0/angular
-            inputs:
-              targetPath: $(Pipeline.Workspace)/dist/auth0-angular
-              artifact: 'auth0-angular'
-              publishLocation: pipeline
+            artifact: auth0-angular
 
   - stage: Publish
     jobs:
     - job: publish
       steps:
+      - download: current
+        displayName: download @auth0/angular
+        artifact: auth0-angular
+
       - task: Npm@1
         displayName: npm publish
         inputs:
