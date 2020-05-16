@@ -24,7 +24,7 @@ steps:
   displayName: npm build
   inputs:
     command: custom
-    customCommand: run build -- auth0-angular
+    customCommand: run build -- auth0-angular --prod
 
 - task: Npm@1
   displayName: npm publish
