@@ -59,10 +59,17 @@ steps:
       command: custom
       customCommand: run build -- auth0-angular --prod
 
-  - task: Npm@1
-    displayName: npm publish
+  - task: PublishPipelineArtifact@1
+    displayName: publish @auth0/angular
     inputs:
-      command: publish
-      workingDir: dist/auth0-angular
-      publishRegistry: useFeed
-      publishFeed: 36641032-ec0e-44f3-b65d-00055870227b
+      targetPath: $(Pipeline.Workspace)/dist/auth0-angular
+      artifact: '@auth0/angular'
+      publishLocation: pipeline
+
+  # - task: Npm@1
+  #   displayName: npm publish
+  #   inputs:
+  #     command: publish
+  #     workingDir: dist/auth0-angular
+  #     publishRegistry: useFeed
+  #     publishFeed: 36641032-ec0e-44f3-b65d-00055870227b
