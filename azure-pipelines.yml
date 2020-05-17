@@ -6,6 +6,7 @@ pool:
 
 stages:
   - stage: Build
+    displayName: test and build package
     jobs:
       - job: build
         steps:
@@ -68,17 +69,22 @@ stages:
             artifact: auth0-angular
 
   - stage: Publish
+    displayName: publish package to local npm feed
     jobs:
-    - job: publish
-      steps:
-      - download: current
-        displayName: download @auth0/angular
-        artifact: auth0-angular
+    - deployment: Publish
+      environment: thecla-npm
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - download: current
+                displayName: download @auth0/angular
+                artifact: auth0-angular
 
-      - task: Npm@1
-        displayName: npm publish
-        inputs:
-          command: publish
-          workingDir: $(Pipeline.Workspace)/auth0-angular
-          publishRegistry: useFeed
-          publishFeed: 36641032-ec0e-44f3-b65d-00055870227b
+              - task: Npm@1
+                displayName: npm publish
+                inputs:
+                  command: publish
+                  workingDir: $(Pipeline.Workspace)/auth0-angular
+                  publishRegistry: useFeed
+                  publishFeed: 36641032-ec0e-44f3-b65d-00055870227b
