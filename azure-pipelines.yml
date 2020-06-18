@@ -1,0 +1,90 @@
+trigger:
+  - master
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: build
+    displayName: test and build package
+    jobs:
+      - job: build
+        steps:
+          - task: NodeTool@0
+            displayName: install node
+            inputs:
+              versionSpec: 12.x
+
+          - task: Npm@1
+            displayName: npm install
+            inputs:
+              command: install
+
+          - task: Npm@1
+            displayName: formatting
+            inputs:
+              command: custom
+              customCommand: run format
+            condition: succeededOrFailed()
+
+          - task: Npm@1
+            displayName: linting
+            inputs:
+              command: custom
+              customCommand: run lint -- --format vso
+            condition: succeededOrFailed()
+
+          - task: Npm@1
+            displayName: test
+            inputs:
+              command: custom
+              customCommand: run test -- --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura
+            condition: succeededOrFailed()
+
+          - task: PublishTestResults@2
+            displayName: publish test results
+            inputs:
+              testResultsFiles: junit.xml
+              testRunTitle: 'Unit Tests'
+              mergeTestResults: true
+              failTaskOnFailedTests: true
+            condition: succeededOrFailed()
+
+          - task: PublishCodeCoverageResults@1
+            displayName: publish test coverage
+            inputs:
+              codeCoverageTool: Cobertura
+              summaryFileLocation: coverage/cobertura-coverage.xml
+              failIfCoverageEmpty: true
+            condition: succeededOrFailed()
+
+          - task: Npm@1
+            displayName: npm build
+            inputs:
+              command: custom
+              customCommand: run build -- auth0-angular --prod
+
+          - publish: $(System.DefaultWorkingDirectory)/dist/auth0-angular
+            displayName: publish auth0-angular
+            artifact: auth0-angular
+
+  - stage: publish
+    displayName: publish package to local npm feed
+    jobs:
+      - deployment: publish
+        environment: thecla-npm
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  displayName: download auth0-angular dist
+                  artifact: auth0-angular
+
+                - task: Npm@1
+                  displayName: npm publish
+                  inputs:
+                    command: custom
+                    customCommand: publish --access public
+                    workingDir: $(Pipeline.Workspace)/auth0-angular
+                    customEndpoint: npmjs
