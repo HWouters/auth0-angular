@@ -69,7 +69,7 @@ stages:
             artifact: auth0-angular
 
   - stage: publish
-    displayName: publish package to local npm feed
+    displayName: publish package to npm
     jobs:
       - deployment: publish
         environment: thecla-npm
