@@ -4,6 +4,14 @@ import { EMPTY, from } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { AuthConfig } from './auth-config';
 
+const RECOVERABLE_ERRORS = [
+  'login_required',
+  'consent_required',
+  'interaction_required',
+  'account_selection_required',
+  'access_denied',
+];
+
 @Injectable({
   providedIn: 'root',
 })
@@ -51,7 +59,7 @@ export class AuthService {
 
       return true;
     } catch (error) {
-      if (error.error !== 'login_required') {
+      if (!RECOVERABLE_ERRORS.includes(error.error)) {
         throw error;
       }
     }
