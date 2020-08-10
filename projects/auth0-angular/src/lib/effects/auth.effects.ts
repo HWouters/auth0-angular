@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { asyncScheduler, of } from 'rxjs';
-import { catchError, filter, map, observeOn, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, observeOn, switchMap, tap } from 'rxjs/operators';
 import {
   completeSignIn,
   signedIn,
@@ -19,7 +19,6 @@ export class AuthEffects {
   public readonly signInFailed$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signInFailed),
-      tap(action => console.error(action.error)),
       map(() => signOut())
     )
   );
