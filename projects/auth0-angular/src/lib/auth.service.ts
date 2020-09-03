@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth0Client } from '@auth0/auth0-spa-js';
-import { EMPTY, from } from 'rxjs';
+import { EMPTY, from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { AuthConfig } from './auth-config';
 
@@ -45,7 +45,7 @@ export class AuthService {
     return from(this.auth0.getUser());
   }
 
-  public getAccessToken() {
+  public getAccessToken(): Observable<unknown> {
     return from(this.auth0.getTokenSilently());
   }
 
