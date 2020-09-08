@@ -1,4 +1,4 @@
-import { signedIn, signedOut } from '../actions/auth.actions';
+import { signedIn, signedOut, signInFailed } from '../actions/auth.actions';
 import { noAuthentication, reducer, startAuthentication } from './auth.reducer';
 
 describe('auth reducer', () => {
@@ -38,5 +38,11 @@ describe('auth reducer', () => {
 
       expect(state).toBe(noAuthentication);
     });
+  });
+
+  describe(signInFailed.type, () => {
+    const state = reducer(startAuthentication, signInFailed({ error: new Error() }));
+
+    expect(state).toBe(noAuthentication);
   });
 });

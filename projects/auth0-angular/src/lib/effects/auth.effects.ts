@@ -16,13 +16,6 @@ import { AuthService } from '../auth.service';
 
 @Injectable()
 export class AuthEffects {
-  public readonly signInFailed$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(signInFailed),
-      map(() => signOut())
-    )
-  );
-
   public readonly signIn$ = createEffect(
     () =>
       this.actions$.pipe(

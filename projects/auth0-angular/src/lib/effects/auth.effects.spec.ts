@@ -141,13 +141,6 @@ describe('Auth Effects', () => {
       const expected = cold('c', { c: signedOut() });
       expect(effects.signOut$).toBeObservable(expected);
     });
-
-    it('signs user out on sign in failure', () => {
-      actions$ = hot('a', { a: signInFailed({ error }) });
-
-      const expected = cold('c', { c: signOut() });
-      expect(effects.signInFailed$).toBeObservable(expected);
-    });
   });
 
   describe('app start', () => {
