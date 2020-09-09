@@ -65,10 +65,10 @@ const routes: Routes = [{ path: 'protected', component: ProtectedComponent, canA
 
 ### Display user info
 
-To display user information, use selector `getUser`.
+To display user information, use `getUser`.
 
 ```js
-public user$ = this.store.pipe(select(getUser));
+public user$ = this.store.pipe(getUser);
 ```
 
 The user object contains the claims from the IdToken.

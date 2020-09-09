@@ -1,4 +1,4 @@
-import { createFeatureSelector, createSelector, select } from '@ngrx/store';
+import { createFeatureSelector, select } from '@ngrx/store';
 import { pipe } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { State } from '../state/auth.state';
@@ -9,10 +9,12 @@ export const selectState = createFeatureSelector<State>(featureKey);
 
 export const isAuthenticated = pipe(
   select(selectState),
-  filter(auth => !auth.authenticating),
-  map(auth => auth.authenticated)
+  filter(state => !state.authenticating),
+  map(state => state.authenticated)
 );
 
-export const getUser = createSelector(selectState, state => {
-  return state.user;
-});
+export const getUser = pipe(
+  select(selectState),
+  filter(state => !state.authenticating),
+  map(state => state.user)
+);

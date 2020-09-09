@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { getUser, signIn, signOut } from '@thecla/auth0-angular';
 
 @Component({
@@ -9,7 +9,7 @@ import { getUser, signIn, signOut } from '@thecla/auth0-angular';
 })
 export class HomeComponent {
   public token = '';
-  public user$ = this.store.pipe(select(getUser));
+  public user$ = this.store.pipe(getUser);
 
   constructor(private readonly store: Store<any>) {}
 
