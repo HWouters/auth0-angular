@@ -3,15 +3,7 @@ import { Router } from '@angular/router';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot, Scheduler } from 'jest-marbles';
 import { EMPTY, Observable } from 'rxjs';
-import {
-  completeSignIn,
-  signedIn,
-  signedOut,
-  signIn,
-  signInCompleted,
-  signInFailed,
-  signOut,
-} from '../actions/auth.actions';
+import { signedIn, signedOut, signIn, signInCompleted, signInFailed, signOut } from '../actions/auth.actions';
 import { AuthService } from '../auth.service';
 import { AuthEffects } from './auth.effects';
 
@@ -64,26 +56,6 @@ describe('Auth Effects', () => {
       expect(effects.signIn$).toSatisfyOnFlush(() => {
         expect(service.loginWithRedirect).toBeCalledWith({ target });
       });
-    });
-  });
-
-  describe('redirect to callback url', () => {
-    it('should complete sign in', () => {
-      service.handleRedirectCallback.mockReturnValue(cold('-a|', { a: state }));
-
-      actions$ = hot('a', { a: completeSignIn() });
-
-      const expected = cold('-c', { c: signInCompleted({ state }) });
-      expect(effects.completeSignIn$).toBeObservable(expected);
-    });
-
-    it('should fail sign in on error', () => {
-      service.handleRedirectCallback.mockReturnValue(cold('#', {}, error));
-
-      actions$ = hot('a', { a: completeSignIn() });
-
-      const expected = cold('c', { c: signInFailed({ error }) });
-      expect(effects.completeSignIn$).toBeObservable(expected);
     });
   });
 
@@ -174,11 +146,23 @@ describe('Auth Effects', () => {
       expect(effects.init$({ scheduler: Scheduler.get() })).toBeObservable(expected);
     });
 
-    it('redirect', () => {
+    it('handles successfull redirects', () => {
+      service.handleRedirectCallback.mockReturnValue(cold('a|', { a: state }));
+
       delete window.location;
       window.location = { ...window.location, search: 'code=&state=' };
 
-      const expected = cold('(c|)', { c: completeSignIn() });
+      const expected = cold('c|', { c: signInCompleted({ state }) });
+      expect(effects.init$({ scheduler: Scheduler.get() })).toBeObservable(expected);
+    });
+
+    it('handles failed redirects', () => {
+      service.handleRedirectCallback.mockReturnValue(cold('#', {}, error));
+
+      delete window.location;
+      window.location = { ...window.location, search: 'code=&state=' };
+
+      const expected = cold('(c|)', { c: signInFailed({ error }) });
       expect(effects.init$({ scheduler: Scheduler.get() })).toBeObservable(expected);
     });
   });

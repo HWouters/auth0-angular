@@ -1,17 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { asyncScheduler, of } from 'rxjs';
+import { asyncScheduler, of, SchedulerLike } from 'rxjs';
 import { catchError, map, observeOn, switchMap, tap } from 'rxjs/operators';
-import {
-  completeSignIn,
-  signedIn,
-  signedOut,
-  signIn,
-  signInCompleted,
-  signInFailed,
-  signOut,
-} from '../actions/auth.actions';
+import { signedIn, signedOut, signIn, signInCompleted, signInFailed, signOut } from '../actions/auth.actions';
 import { AuthService } from '../auth.service';
 
 @Injectable()
@@ -23,18 +15,6 @@ export class AuthEffects {
         switchMap(action => this.auth.loginWithRedirect({ target: action.returnUrl }))
       ),
     { dispatch: false }
-  );
-
-  public readonly completeSignIn$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(completeSignIn),
-      switchMap(() =>
-        this.auth.handleRedirectCallback().pipe(
-          map(state => signInCompleted({ state })),
-          catchError(error => of(signInFailed({ error })))
-        )
-      )
-    )
   );
 
   public readonly signInCompleted$ = createEffect(() =>
@@ -74,7 +54,7 @@ export class AuthEffects {
     const params = window.location.search;
 
     if (params.includes('code=') && params.includes('state=')) {
-      return of(completeSignIn()).pipe(observeOn(scheduler));
+      return this.completeSignIn(scheduler);
     } else {
       return this.auth.isAuthenticated().pipe(
         switchMap(auth => this.getAuthResult(auth)),
@@ -96,5 +76,13 @@ export class AuthEffects {
     } else {
       return of(signedOut());
     }
+  }
+
+  private completeSignIn(scheduler: SchedulerLike) {
+    return this.auth.handleRedirectCallback().pipe(
+      map(state => signInCompleted({ state })),
+      catchError(error => of(signInFailed({ error }))),
+      observeOn(scheduler)
+    );
   }
 }

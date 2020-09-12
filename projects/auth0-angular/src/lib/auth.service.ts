@@ -33,12 +33,12 @@ export class AuthService {
     return from(this.checkSession());
   }
 
-  public loginWithRedirect(appState?: any) {
+  public loginWithRedirect(appState: { target: string }) {
     return from(this.auth0.loginWithRedirect({ appState })).pipe(switchMap(() => EMPTY));
   }
 
   public handleRedirectCallback() {
-    return from(this.auth0.handleRedirectCallback()).pipe(map(result => result.appState));
+    return from(this.auth0.handleRedirectCallback()).pipe(map(result => result.appState as { target: string }));
   }
 
   public getUser() {

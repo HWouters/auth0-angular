@@ -3,9 +3,10 @@ import { Profile } from '../state/auth.state';
 
 export const signIn = createAction('@thecla/auth0-angular/sign-in', props<{ returnUrl: string }>());
 
-export const completeSignIn = createAction('@thecla/auth0-angular/complete-sign-in');
-
-export const signInCompleted = createAction('@thecla/auth0-angular/sign-in-completed', props<{ state: any }>());
+export const signInCompleted = createAction(
+  '@thecla/auth0-angular/sign-in-completed',
+  props<{ state: { target: string } }>()
+);
 
 export const signedIn = createAction('@thecla/auth0-angular/signed-in', props<Profile>());
 
