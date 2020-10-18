@@ -14,7 +14,7 @@ export class AuthService {
     this.auth0 = new Auth0Client({
       audience: config.audience,
       client_id: config.clientId,
-      domain: config.authority,
+      domain: config.domain,
       redirect_uri: config.redirectUri ?? location.origin,
       scope: config.scope,
       useRefreshTokens: config.useRefreshTokens ?? false,
