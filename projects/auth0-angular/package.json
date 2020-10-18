@@ -1,6 +1,6 @@
 {
   "name": "@thecla/auth0-angular",
-  "version": "2.1.0-beta.0",
+  "version": "2.1.0",
   "author": "Hendrik Wouters",
   "description": "Angular module using NGRX to authenticate with Auth0",
   "repository": {

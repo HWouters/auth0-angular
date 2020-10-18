@@ -3,7 +3,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   globals: {
     'ts-jest': {
-      tsConfig: 'tsconfig.base.json',
+      tsConfig: 'tsconfig.json',
       stringifyContentPathRegex: '\\.html$',
       astTransformers: [
         'jest-preset-angular/build/InlineFilesTransformer',
