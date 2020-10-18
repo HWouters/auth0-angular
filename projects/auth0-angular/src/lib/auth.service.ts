@@ -4,14 +4,6 @@ import { EMPTY, from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { AuthConfig } from './auth-config';
 
-const RECOVERABLE_ERRORS = [
-  'login_required',
-  'consent_required',
-  'interaction_required',
-  'account_selection_required',
-  'access_denied',
-];
-
 @Injectable({
   providedIn: 'root',
 })
@@ -54,16 +46,8 @@ export class AuthService {
   }
 
   private async checkSession() {
-    try {
-      await this.auth0.getTokenSilently();
+    await this.auth0.checkSession();
 
-      return true;
-    } catch (error) {
-      if (!RECOVERABLE_ERRORS.includes(error.error)) {
-        throw error;
-      }
-    }
-
-    return false;
+    return await this.auth0.isAuthenticated();
   }
 }
