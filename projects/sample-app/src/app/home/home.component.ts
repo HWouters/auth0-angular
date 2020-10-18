@@ -8,7 +8,6 @@ import { getUser, signIn, signOut } from '@thecla/auth0-angular';
   styles: [],
 })
 export class HomeComponent {
-  public token = '';
   public user$ = this.store.pipe(getUser);
 
   constructor(private readonly store: Store<any>) {}
