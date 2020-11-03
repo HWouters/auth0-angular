@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@thecla/auth0-angular';
-// import { AuthGuard } from '@thecla/b2c-angular';
+import { AuthGuard } from '@thecla/auth-angular';
 import { HomeComponent } from './home/home.component';
 import { ProtectedComponent } from './protected/protected.component';
 

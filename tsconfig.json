@@ -16,8 +16,8 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "paths": {
-      "@thecla/auth0-angular": ["dist/auth0-angular"],
-      "@thecla/b2c-angular": ["dist/b2c-angular"]
+      "@thecla/auth-angular": ["dist/auth0-angular"]
+      // "@thecla/auth-angular": ["dist/b2c-angular"]
     }
   },
   "angularCompilerOptions": {
