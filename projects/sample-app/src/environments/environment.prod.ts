@@ -8,3 +8,12 @@ export const auth0Config = {
   clientId: '',
   scope: 'openid profile',
 };
+
+export const b2cConfig = {
+  clientId: '',
+  authority: '',
+  signInPolicy: '',
+  resetPasswordPolicy: '',
+  knownAuthorities: [],
+  scopes: [],
+};

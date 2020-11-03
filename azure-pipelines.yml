@@ -59,7 +59,7 @@ stages:
             condition: succeededOrFailed()
 
           - task: Npm@1
-            displayName: npm build
+            displayName: npm build auth0
             inputs:
               command: custom
               customCommand: run build -- auth0-angular --prod
@@ -68,8 +68,19 @@ stages:
             displayName: publish auth0-angular
             artifact: auth0-angular
 
-  - stage: publish
-    displayName: publish package to npm
+          - task: Npm@1
+            displayName: npm build b2c
+            inputs:
+              command: custom
+              customCommand: run build -- b2c-angular --prod
+
+          - publish: $(System.DefaultWorkingDirectory)/dist/b2c-angular
+            displayName: publish b2c-angular
+            artifact: b2c-angular
+
+  - stage: publish_auth0
+    dependsOn: build
+    displayName: publish auth0-angular package to npm
     jobs:
       - deployment: publish
         environment: thecla-npm
@@ -87,4 +98,26 @@ stages:
                     command: custom
                     customCommand: publish --access public
                     workingDir: $(Pipeline.Workspace)/auth0-angular
+                    customEndpoint: npmjs
+
+  - stage: publish_b2c
+    dependsOn: build
+    displayName: publish b2c-angular package to npm
+    jobs:
+      - deployment: publish
+        environment: thecla-npm
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  displayName: download b2c-angular dist
+                  artifact: b2c-angular
+
+                - task: Npm@1
+                  displayName: npm publish
+                  inputs:
+                    command: custom
+                    customCommand: publish --access public
+                    workingDir: $(Pipeline.Workspace)/b2c-angular
                     customEndpoint: npmjs

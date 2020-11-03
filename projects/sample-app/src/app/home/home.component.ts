@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { getUser, signIn, signOut } from '@thecla/auth0-angular';
+// import { getUser, signIn, signOut } from '@thecla/b2c-angular';
 
 @Component({
   selector: 'app-home',

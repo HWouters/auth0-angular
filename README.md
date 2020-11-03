@@ -9,6 +9,8 @@ Auth0 provides a high quality [Javscript SDK](https://auth0.com/docs/libraries/a
 
 This library is inspired by the NG-Conf 2020 talk from Sam Julien: [The Role of Effects in NgRx Authentication](https://www.ng-conf.org/2020/sessions/rxwut/). It uses [Ngrx Store](https://ngrx.io/guide/store) for managing authentication state and [Ngrx Effects](https://ngrx.io/guide/effects) for authentication orchestration.
 
+This repo now contains also a library that helps integrating Azure AD B2C authentication in your Angular/Ngrx application.
+
 ## Getting Started
 
 Start with an Angular application and the necessary imports for Ngrx:
@@ -28,6 +30,13 @@ npm install @auth0/auth0-spa-js
 npm install @thecla/auth0-angular
 ```
 
+For B2C install install `@thecla/b2c-angular` and its peer dependency `@azure/msal-browser`
+
+```sh
+npm install @azure/msal-browser
+npm install @thecla/b2c-angular
+```
+
 ### Import and configure module
 
 Import `AuthModule` from `@thecla/auth0-angular` in the app module:
@@ -38,6 +47,21 @@ const auth0Config = {
   authority: '',
   clientId: '',
   scope: 'openid profile',
+};
+
+AuthModule.forRoot(auth0Config);
+```
+
+or 
+
+```js
+const b2cConfig = {
+  clientId: '',
+  authority: 'https://{name}.b2clogin.com/{tenantid}',
+  signInPolicy: 'B2C_1A_XXXXXXX',
+  resetPasswordPolicy: 'B2C_1A_XXXXXXX',
+  knownAuthorities: ['{name}.b2clogin.com'],
+  scopes: [],
 };
 
 AuthModule.forRoot(auth0Config);

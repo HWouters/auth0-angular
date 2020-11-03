@@ -30,6 +30,33 @@
         }
       }
     },
+    "b2c-angular": {
+      "projectType": "library",
+      "root": "projects/b2c-angular",
+      "sourceRoot": "projects/b2c-angular/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/b2c-angular/tsconfig.lib.json",
+            "project": "projects/b2c-angular/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/b2c-angular/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["projects/b2c-angular/tsconfig.lib.json"],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
     "sample-app": {
       "projectType": "application",
       "schematics": {},
@@ -112,5 +139,5 @@
   "cli": {
     "analytics": false
   },
-  "defaultProject": "auth0-angular"
+  "defaultProject": "sample-app"
 }

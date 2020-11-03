@@ -22,6 +22,7 @@ module.exports = {
   modulePathIgnorePatterns: ['dist'],
   moduleNameMapper: {
     '^@thecla/auth0-angular/(.*)$': '<rootDir>/dist/auth0-angular/$1',
+    '^@thecla/b2c-angular/(.*)$': '<rootDir>/dist/b2c-angular/$1',
   },
   transformIgnorePatterns: ['node_modules/(?!@ngrx)'],
   snapshotSerializers: [
