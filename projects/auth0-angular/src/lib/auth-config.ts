@@ -6,4 +6,5 @@ export abstract class AuthConfig {
   public abstract redirectUri?: string;
   public abstract logoutUri?: string;
   public abstract useRefreshTokens?: boolean;
+  public abstract sessionCheckExpiryDays?: number;
 }

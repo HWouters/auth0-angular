@@ -17,7 +17,8 @@ export class AuthService {
       domain: config.domain,
       redirect_uri: config.redirectUri ?? location.origin,
       scope: config.scope,
-      useRefreshTokens: config.useRefreshTokens ?? false,
+      useRefreshTokens: config.useRefreshTokens,
+      sessionCheckExpiryDays: config.sessionCheckExpiryDays
     });
   }
 
