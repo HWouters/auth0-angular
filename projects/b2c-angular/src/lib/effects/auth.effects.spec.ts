@@ -160,8 +160,7 @@ describe('Auth Effects', () => {
     it('handles successfull redirects', () => {
       service.handleRedirectCallback.mockReturnValue(cold('a|', { a: { state, user } }));
 
-      delete window.location;
-      window.location = { ...window.location, hash: 'code=&state=' };
+      window.history.pushState({}, 'title', '#code=&state=');
 
       const expected = cold('c|', { c: signInCompleted({ state, user }) });
       expect(effects.init$({ scheduler: Scheduler.get() })).toBeObservable(expected);
@@ -170,8 +169,7 @@ describe('Auth Effects', () => {
     it('handles failed redirects', () => {
       service.handleRedirectCallback.mockReturnValue(cold('#', {}, error));
 
-      delete window.location;
-      window.location = { ...window.location, hash: 'error=&error_description=' };
+      window.history.pushState({}, 'title', '#error=&error_description=');
 
       const expected = cold('(c|)', { c: signInFailed({ error }) });
       expect(effects.init$({ scheduler: Scheduler.get() })).toBeObservable(expected);

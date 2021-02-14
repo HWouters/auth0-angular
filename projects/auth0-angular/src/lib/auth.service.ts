@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Auth0Client } from '@auth0/auth0-spa-js';
+import { Auth0Client, User } from '@auth0/auth0-spa-js';
 import { EMPTY, from, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { AuthConfig } from './auth-config';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class AuthService {
       redirect_uri: config.redirectUri ?? location.origin,
       scope: config.scope,
       useRefreshTokens: config.useRefreshTokens,
-      sessionCheckExpiryDays: config.sessionCheckExpiryDays
+      sessionCheckExpiryDays: config.sessionCheckExpiryDays,
     });
   }
 
@@ -35,7 +35,7 @@ export class AuthService {
   }
 
   public getUser() {
-    return from(this.auth0.getUser());
+    return from(this.auth0.getUser()).pipe(filter((u): u is User => u !== undefined));
   }
 
   public getAccessToken(): Observable<unknown> {

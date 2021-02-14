@@ -1,5 +1,5 @@
 export interface Profile {
-  sub: string;
+  sub?: string;
   name?: string;
   nickname?: string;
   picture?: string;
