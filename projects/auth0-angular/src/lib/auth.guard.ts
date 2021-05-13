@@ -11,7 +11,7 @@ import { isAuthenticated } from './store';
 export class AuthGuard implements CanActivate {
   private readonly authenticated$ = this.store.pipe(isAuthenticated);
 
-  constructor(private readonly store: Store<any>) {}
+  public constructor(private readonly store: Store<any>) {}
 
   public canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.authenticated$.pipe(

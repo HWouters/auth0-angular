@@ -18,11 +18,6 @@ import { AuthService } from '../auth.service';
 
 @Injectable()
 export class AuthEffects {
-  constructor(
-    private readonly actions$: Actions,
-    private readonly auth: AuthService,
-    private readonly router: Router
-  ) {}
   public readonly signIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signIn),
@@ -111,6 +106,12 @@ export class AuthEffects {
       map(() => signOut())
     )
   );
+
+  public constructor(
+    private readonly actions$: Actions,
+    private readonly auth: AuthService,
+    private readonly router: Router
+  ) {}
 
   private static isForgotPasswordError(error: AuthError) {
     return error.errorCode === 'access_denied' && error.errorMessage.indexOf('AADB2C90118') !== -1;

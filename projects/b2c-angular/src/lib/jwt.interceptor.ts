@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private readonly auth: AuthService) {}
+  public constructor(private readonly auth: AuthService) {}
 
   public intercept(request: HttpRequest<any>, next: HttpHandler) {
     if (this.isSameDomain(request)) {

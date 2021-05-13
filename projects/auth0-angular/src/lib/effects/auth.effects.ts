@@ -64,7 +64,7 @@ export class AuthEffects {
     }
   });
 
-  constructor(
+  public constructor(
     private readonly actions$: Actions,
     private readonly auth: AuthService,
     private readonly router: Router

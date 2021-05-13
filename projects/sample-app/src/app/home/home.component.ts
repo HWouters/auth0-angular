@@ -10,7 +10,7 @@ import { getUser, signIn, signOut } from '@thecla/auth-angular';
 export class HomeComponent {
   public user$ = this.store.pipe(getUser);
 
-  constructor(private readonly store: Store<any>) {}
+  public constructor(private readonly store: Store<any>) {}
 
   public login() {
     this.store.dispatch(signIn({ returnUrl: '/' }));

@@ -10,7 +10,7 @@ import { AuthConfig } from './auth-config';
 export class AuthService {
   private readonly auth0: Auth0Client;
 
-  constructor(private readonly config: AuthConfig) {
+  public constructor(private readonly config: AuthConfig) {
     this.auth0 = new Auth0Client({
       audience: config.audience,
       client_id: config.clientId,

@@ -15,7 +15,7 @@ import { AuthConfig } from './auth-config';
 export class AuthService {
   private readonly clientApplication: PublicClientApplication;
 
-  constructor(private readonly config: AuthConfig) {
+  public constructor(private readonly config: AuthConfig) {
     const msalConfig: Configuration = {
       auth: {
         clientId: config.clientId,
@@ -51,12 +51,10 @@ export class AuthService {
   public handleRedirectCallback() {
     return from(this.clientApplication.handleRedirectPromise()).pipe(
       filter((result): result is AuthenticationResult => result !== null),
-      map(result => {
-        return {
-          state: result.state ? JSON.parse(result.state) : undefined,
-          user: { sub: result.uniqueId, ...result.idTokenClaims },
-        };
-      })
+      map(result => ({
+        state: result.state ? JSON.parse(result.state) : undefined,
+        user: { sub: result.uniqueId, ...result.idTokenClaims },
+      }))
     );
   }
 

@@ -14,9 +14,12 @@ export const startAuthentication: State = {
 
 const authReducer = createReducer(
   startAuthentication,
-  on(signedIn, (state, { type, ...payload }) => {
-    return { ...state, authenticating: false, authenticated: true, user: payload };
-  }),
+  on(signedIn, (state, { type, ...payload }) => ({
+    ...state,
+    authenticating: false,
+    authenticated: true,
+    user: payload,
+  })),
   on(signedOut, () => noAuthentication),
   on(signInFailed, () => noAuthentication)
 );

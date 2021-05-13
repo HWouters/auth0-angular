@@ -10,7 +10,7 @@ import { EchoApiService } from '../echo-api.service';
 export class ProtectedComponent implements OnInit {
   public token = '';
 
-  constructor(private readonly data: EchoApiService) {}
+  public constructor(private readonly data: EchoApiService) {}
 
   public ngOnInit() {
     this.data
