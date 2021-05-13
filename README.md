@@ -44,7 +44,7 @@ Import `AuthModule` from `@thecla/auth0-angular` in the app module:
 ```js
 const auth0Config = {
   audience: '',
-  authority: '',
+  domain: '',
   clientId: '',
   scope: 'openid profile',
 };

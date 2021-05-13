@@ -4,7 +4,7 @@ export const environment = {
 
 export const auth0Config = {
   audience: '',
-  authority: '',
+  domain: '',
   clientId: '',
   scope: 'openid profile',
 };
