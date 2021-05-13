@@ -3,12 +3,14 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   globals: {
     'ts-jest': {
-      tsConfig: 'tsconfig.json',
+      tsconfig: 'tsconfig.json',
       stringifyContentPathRegex: '\\.html$',
-      astTransformers: [
-        'jest-preset-angular/build/InlineFilesTransformer',
-        'jest-preset-angular/build/StripStylesTransformer',
-      ],
+      astTransformers: {
+        before: [
+          'jest-preset-angular/build/InlineFilesTransformer',
+          'jest-preset-angular/build/StripStylesTransformer',
+        ],
+      },
       diagnostics: {
         ignoreCodes: [151001],
       },
@@ -26,11 +28,9 @@ module.exports = {
   },
   transformIgnorePatterns: ['node_modules/(?!@ngrx)'],
   snapshotSerializers: [
-    'jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js',
-    'jest-preset-angular/build/AngularSnapshotSerializer.js',
-    'jest-preset-angular/build/HTMLCommentSerializer.js',
+    'jest-preset-angular/build/serializers/no-ng-attributes',
+    'jest-preset-angular/build/serializers/ng-snapshot',
+    'jest-preset-angular/build/serializers/html-comment',
   ],
-  testPathIgnorePatterns: [
-    '<rootDir>/node_modules/',
-  ]
+  testPathIgnorePatterns: ['<rootDir>/node_modules/'],
 };

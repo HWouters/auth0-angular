@@ -68,7 +68,7 @@ export class AuthService {
   }
 
   public logout() {
-    return from(this.clientApplication.logout({ postLogoutRedirectUri: location.origin }));
+    return from(this.clientApplication.logoutRedirect({ postLogoutRedirectUri: location.origin }));
   }
 
   public checkSession() {
