@@ -1,6 +1,5 @@
-import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { getMockStore, MockStore } from '@ngrx/store/testing';
 import { cold } from 'jest-marbles';
 import { signIn } from './actions/auth.actions';
 import { AuthGuard } from './auth.guard';
@@ -15,12 +14,8 @@ describe('Auth Guard', () => {
   let guard: AuthGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [AuthGuard, provideMockStore({ initialState })],
-    });
-
-    store = TestBed.inject(MockStore);
-    guard = TestBed.inject(AuthGuard);
+    store = getMockStore({ initialState });
+    guard = new AuthGuard(store);
 
     spyOn(store, 'dispatch');
   });
