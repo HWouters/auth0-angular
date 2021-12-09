@@ -20,13 +20,6 @@
               "tsConfig": "projects/auth0-angular/tsconfig.lib.prod.json"
             }
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["projects/auth0-angular/tsconfig.lib.json"],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -46,13 +39,6 @@
             "production": {
               "tsConfig": "projects/b2c-angular/tsconfig.lib.prod.json"
             }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["projects/b2c-angular/tsconfig.lib.json"],
-            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -128,13 +114,6 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "sample-app:build"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["projects/sample-app/tsconfig.app.json"],
-            "exclude": ["**/node_modules/**"]
           }
         }
       }

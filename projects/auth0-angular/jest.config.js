@@ -1,4 +1,5 @@
 module.exports = {
+  testEnvironment: 'jsdom',
   displayName: 'auth0-angular',
   setupFilesAfterEnv: ['<rootDir>/test-setup.ts'],
   globals: {
@@ -7,6 +8,11 @@ module.exports = {
       stringifyContentPathRegex: '\\.html$',
     },
   },
-  transform: { '^.+\\.(ts|mjs|html)$': 'ts-jest' },
   testMatch: ['<rootDir>/**/*.spec.ts'],
+  moduleFileExtensions: ['ts', 'html', 'js', 'json', 'mjs'],
+  resolver: 'jest-preset-angular/build/resolvers/ng-jest-resolver.js',
+  transformIgnorePatterns: ['<rootDir>../../node_modules/(?!.*\\.mjs$)'],
+  transform: {
+    '^.+\\.(ts|mjs|html|svg)$': 'jest-preset-angular',
+  },
 };

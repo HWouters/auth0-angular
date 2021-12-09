@@ -2,11 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/auth0-angular",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "@ngrx/store": "ngrx.store",
-      "@ngrx/effects": "ngrx.effects",
-      "@auth0/auth0-spa-js": "createAuth0Client"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }
