@@ -14,14 +14,14 @@ export const startAuthentication: State = {
 
 const authReducer = createReducer(
   startAuthentication,
-  on(signedIn, (state, { type, ...payload }) => ({
+  on(signedIn, (state, { user }) => ({
     ...state,
     authenticating: false,
     authenticated: true,
-    user: payload,
+    user,
   })),
-  on(signedOut, () => noAuthentication),
-  on(signInFailed, () => noAuthentication)
+  on(signedOut, _ => noAuthentication),
+  on(signInFailed, _ => noAuthentication)
 );
 
 export function reducer(state: State | undefined, action: Action) {

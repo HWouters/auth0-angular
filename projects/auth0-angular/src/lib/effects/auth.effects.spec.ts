@@ -65,7 +65,7 @@ describe('Auth Effects', () => {
 
       actions$ = hot('a', { a: signInCompleted({ state }) });
 
-      const expected = cold('c', { c: signedIn(user) });
+      const expected = cold('c', { c: signedIn({ user }) });
       expect(effects.signInCompleted$).toBeObservable(expected);
     });
 
@@ -120,7 +120,7 @@ describe('Auth Effects', () => {
       service.isAuthenticated.mockReturnValue(cold('a|', { a: true }));
       service.getUser.mockReturnValue(cold('a|', { a: user }));
 
-      const expected = cold('c|', { c: signedIn(user) });
+      const expected = cold('c|', { c: signedIn({ user }) });
       expect(effects.init$({ scheduler: Scheduler.get() })).toBeObservable(expected);
     });
 

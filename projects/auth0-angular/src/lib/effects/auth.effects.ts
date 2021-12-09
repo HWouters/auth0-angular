@@ -22,7 +22,7 @@ export class AuthEffects {
       ofType(signInCompleted),
       switchMap(() =>
         this.auth.getUser().pipe(
-          map(user => signedIn(user)),
+          map(user => signedIn({ user })),
           catchError(error => of(signInFailed({ error })))
         )
       )
@@ -72,7 +72,7 @@ export class AuthEffects {
 
   private getAuthResult(auth: boolean) {
     if (auth) {
-      return this.auth.getUser().pipe(map(user => signedIn(user)));
+      return this.auth.getUser().pipe(map(user => signedIn({ user })));
     } else {
       return of(signedOut());
     }

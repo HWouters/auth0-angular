@@ -31,7 +31,7 @@ stages:
             displayName: linting
             inputs:
               command: custom
-              customCommand: run lint -- --format vso
+              customCommand: run lint -- --format visualstudio
             condition: succeededOrFailed()
 
           - task: Npm@1

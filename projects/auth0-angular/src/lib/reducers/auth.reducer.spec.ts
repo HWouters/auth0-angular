@@ -11,26 +11,26 @@ describe('auth reducer', () => {
     });
   });
 
-  describe(signedIn.type, () => {
+  describe('Signed in', () => {
     const sub = 'id';
     const name = 'name';
     const email = 'a.b@mail.com';
 
     it('should add authenticated user to store', () => {
-      const state = reducer(noAuthentication, signedIn({ sub, name, email }));
+      const state = reducer(noAuthentication, signedIn({ user: { sub, name, email } }));
 
       expect(state.authenticated).toBe(true);
       expect(state.user).toEqual({ sub, name, email });
     });
   });
 
-  describe(signedOut.type, () => {
+  describe('Signed Out', () => {
     const sub = 'id';
     const name = 'name';
     const email = 'a.b@mail.com';
 
     it('should remove authenticated user from store', () => {
-      let state = reducer(noAuthentication, signedIn({ sub, name, email }));
+      let state = reducer(noAuthentication, signedIn({ user: { sub, name, email } }));
 
       expect(state.authenticated).toBe(true);
 
@@ -40,9 +40,11 @@ describe('auth reducer', () => {
     });
   });
 
-  describe(signInFailed.type, () => {
-    const state = reducer(startAuthentication, signInFailed({ error: new Error() }));
+  describe('Sign in failed', () => {
+    it('should remove authenticated user', () => {
+      const state = reducer(startAuthentication, signInFailed({ error: new Error() }));
 
-    expect(state).toBe(noAuthentication);
+      expect(state).toBe(noAuthentication);
+    });
   });
 });

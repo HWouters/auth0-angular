@@ -45,7 +45,7 @@ export class AuthEffects {
   public readonly signInCompleted$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signInCompleted),
-      map(action => (action.state.passwordReset ? signOut() : signedIn(action.user)))
+      map(({ state, user }) => (state.passwordReset ? signOut() : signedIn({ user })))
     )
   );
 
@@ -123,7 +123,7 @@ export class AuthEffects {
 
   private getAuthResult(user: { sub: string } | undefined) {
     if (user) {
-      return signedIn(user);
+      return signedIn({ user });
     } else {
       return signedOut();
     }
