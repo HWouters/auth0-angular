@@ -17,7 +17,7 @@ describe('Auth Guard', () => {
     store = getMockStore({ initialState });
     guard = new AuthGuard(store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   describe('authenticated', () => {
