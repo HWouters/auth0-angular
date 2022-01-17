@@ -1,6 +1,6 @@
 {
   "name": "@thecla/b2c-angular",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "author": "Hendrik Wouters",
   "description": "Angular module using NGRX to authenticate with Azure AD B2C",
   "repository": {
