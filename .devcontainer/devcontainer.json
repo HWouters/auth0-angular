@@ -17,7 +17,8 @@
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"orta.vscode-jest",
-		"angular.ng-template"
+		"angular.ng-template",
+		"mhutchie.git-graph"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
