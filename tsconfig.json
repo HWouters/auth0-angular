@@ -12,7 +12,7 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "strict": true,
-    "target": "es2015",
+    "target": "es2020",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "paths": {
@@ -21,7 +21,8 @@
     }
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "strictTemplates": true,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true
   }
 }

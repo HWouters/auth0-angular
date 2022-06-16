@@ -62,7 +62,7 @@ stages:
             displayName: npm build auth0
             inputs:
               command: custom
-              customCommand: run build -- auth0-angular --prod
+              customCommand: run build -- auth0-angular -c production
 
           - publish: $(System.DefaultWorkingDirectory)/dist/auth0-angular
             displayName: publish auth0-angular
@@ -72,7 +72,7 @@ stages:
             displayName: npm build b2c
             inputs:
               command: custom
-              customCommand: run build -- b2c-angular --prod
+              customCommand: run build -- b2c-angular -c production
 
           - publish: $(System.DefaultWorkingDirectory)/dist/b2c-angular
             displayName: publish b2c-angular
