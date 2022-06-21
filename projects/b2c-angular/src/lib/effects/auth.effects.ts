@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthError, BrowserAuthErrorMessage } from '@azure/msal-browser';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { asyncScheduler, of, SchedulerLike } from 'rxjs';
-import { catchError, filter, map, observeOn, switchMap, tap } from 'rxjs/operators';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import {
+  init,
   resetPassword,
   signedIn,
   signedOut,
@@ -17,7 +18,7 @@ import {
 import { AuthService } from '../auth.service';
 
 @Injectable()
-export class AuthEffects {
+export class AuthEffects implements OnInitEffects {
   public readonly signIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signIn),
@@ -70,22 +71,26 @@ export class AuthEffects {
     )
   );
 
-  public readonly init$ = createEffect(() => ({ scheduler = asyncScheduler } = {}) => {
-    const params = window.location.hash;
+  public readonly init$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(init),
+      switchMap(() => {
+        const params = window.location.hash;
 
-    if (
-      (params.includes('code=') && params.includes('state=')) ||
-      (params.includes('error=') && params.includes('error_description='))
-    ) {
-      return this.completeSignIn(scheduler);
-    } else {
-      return this.auth.checkSession().pipe(
-        map(user => this.getAuthResult(user)),
-        catchError(error => of(signInFailed({ error }))),
-        observeOn(scheduler)
-      );
-    }
-  });
+        if (
+          (params.includes('code=') && params.includes('state=')) ||
+          (params.includes('error=') && params.includes('error_description='))
+        ) {
+          return this.completeSignIn();
+        } else {
+          return this.auth.checkSession().pipe(
+            map(user => this.getAuthResult(user)),
+            catchError(error => of(signInFailed({ error })))
+          );
+        }
+      })
+    )
+  );
 
   public readonly resetPassword$ = createEffect(() =>
     this.actions$.pipe(
@@ -113,6 +118,10 @@ export class AuthEffects {
     private readonly router: Router
   ) {}
 
+  public ngrxOnInitEffects() {
+    return init();
+  }
+
   private static isForgotPasswordError(error: AuthError) {
     return error.errorCode === 'access_denied' && error.errorMessage.indexOf('AADB2C90118') !== -1;
   }
@@ -129,11 +138,10 @@ export class AuthEffects {
     }
   }
 
-  private completeSignIn(scheduler: SchedulerLike) {
+  private completeSignIn() {
     return this.auth.handleRedirectCallback().pipe(
       map(result => signInCompleted({ state: result.state, user: result.user })),
-      catchError(error => of(signInFailed({ error }))),
-      observeOn(scheduler)
+      catchError(error => of(signInFailed({ error })))
     );
   }
 }

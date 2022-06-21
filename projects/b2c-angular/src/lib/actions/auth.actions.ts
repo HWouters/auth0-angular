@@ -1,6 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { Profile } from '../state/auth.state';
 
+export const init = createAction('[@thecla/b2c-angular] init');
+
 export const signIn = createAction('[@thecla/b2c-angular] sign-in', props<{ returnUrl: string }>());
 
 export const signInRedirected = createAction('[@thecla/b2c-angular] sign in redirected');

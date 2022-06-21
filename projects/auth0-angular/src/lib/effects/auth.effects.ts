@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { asyncScheduler, of, SchedulerLike } from 'rxjs';
-import { catchError, map, observeOn, switchMap, tap } from 'rxjs/operators';
-import { signedIn, signedOut, signIn, signInCompleted, signInFailed, signOut } from '../actions/auth.actions';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { init, signedIn, signedOut, signIn, signInCompleted, signInFailed, signOut } from '../actions/auth.actions';
 import { AuthService } from '../auth.service';
 
 @Injectable()
-export class AuthEffects {
+export class AuthEffects implements OnInitEffects {
   public readonly signIn$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -50,25 +50,33 @@ export class AuthEffects {
     )
   );
 
-  public readonly init$ = createEffect(() => ({ scheduler = asyncScheduler } = {}) => {
-    const params = window.location.search;
+  public readonly init$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(init),
+      switchMap(() => {
+        const params = window.location.search;
 
-    if (params.includes('code=') && params.includes('state=')) {
-      return this.completeSignIn(scheduler);
-    } else {
-      return this.auth.isAuthenticated().pipe(
-        switchMap(auth => this.getAuthResult(auth)),
-        catchError(error => of(signInFailed({ error }))),
-        observeOn(scheduler)
-      );
-    }
-  });
+        if (params.includes('code=') && params.includes('state=')) {
+          return this.completeSignIn();
+        } else {
+          return this.auth.isAuthenticated().pipe(
+            switchMap(auth => this.getAuthResult(auth)),
+            catchError(error => of(signInFailed({ error })))
+          );
+        }
+      })
+    )
+  );
 
   public constructor(
     private readonly actions$: Actions,
     private readonly auth: AuthService,
     private readonly router: Router
   ) {}
+
+  public ngrxOnInitEffects() {
+    return init();
+  }
 
   private getAuthResult(auth: boolean) {
     if (auth) {
@@ -78,11 +86,10 @@ export class AuthEffects {
     }
   }
 
-  private completeSignIn(scheduler: SchedulerLike) {
+  private completeSignIn() {
     return this.auth.handleRedirectCallback().pipe(
       map(state => signInCompleted({ state })),
-      catchError(error => of(signInFailed({ error }))),
-      observeOn(scheduler)
+      catchError(error => of(signInFailed({ error })))
     );
   }
 }

@@ -1,6 +1,6 @@
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { subscribeSpyTo } from '@hirez_io/observer-spy';
 import { getMockStore, MockStore } from '@ngrx/store/testing';
-import { cold } from 'jest-marbles';
 import { signIn } from './actions/auth.actions';
 import { AuthGuard } from './auth.guard';
 import { selectState } from './store';
@@ -24,9 +24,9 @@ describe('Auth Guard', () => {
     it('can activate', () => {
       store.overrideSelector(selectState, { authenticating: false, authenticated: true });
 
-      const expected = cold('(a|)', { a: true });
+      const spy = subscribeSpyTo(guard.canActivate(next, state));
 
-      expect(guard.canActivate(next, state)).toBeObservable(expected);
+      expect(spy.getLastValue()).toBe(true);
     });
   });
 
@@ -34,9 +34,9 @@ describe('Auth Guard', () => {
     it('dispatches signin action', () => {
       store.overrideSelector(selectState, { authenticating: false, authenticated: false });
 
-      expect(guard.canActivate(next, state)).toSatisfyOnFlush(() =>
-        expect(store.dispatch).toHaveBeenCalledWith(signIn({ returnUrl: state.url }))
-      );
+      subscribeSpyTo(guard.canActivate(next, state));
+
+      expect(store.dispatch).toHaveBeenCalledWith(signIn({ returnUrl: state.url }));
     });
   });
 
@@ -44,7 +44,9 @@ describe('Auth Guard', () => {
     it('does not dispatch signin action', () => {
       store.overrideSelector(selectState, { authenticating: true, authenticated: false });
 
-      expect(guard.canActivate(next, state)).toSatisfyOnFlush(() => expect(store.dispatch).not.toHaveBeenCalled());
+      subscribeSpyTo(guard.canActivate(next, state));
+
+      expect(store.dispatch).not.toHaveBeenCalled();
     });
   });
 });

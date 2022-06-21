@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AuthError } from '@azure/msal-browser';
+import { subscribeSpyTo } from '@hirez_io/observer-spy';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot, Scheduler } from 'jest-marbles';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import {
+  init,
   resetPassword,
   signedIn,
   signedOut,
@@ -60,11 +61,11 @@ describe('Auth Effects', () => {
       const target = 'path';
       service.loginWithRedirect.mockReturnValue(EMPTY);
 
-      actions$ = hot('a', { a: signIn({ returnUrl: target }) });
+      actions$ = of(signIn({ returnUrl: target }));
 
-      expect(effects.signIn$).toSatisfyOnFlush(() => {
-        expect(service.loginWithRedirect).toBeCalledWith({ target });
-      });
+      subscribeSpyTo(effects.signIn$);
+
+      expect(service.loginWithRedirect).toBeCalledWith({ target });
     });
   });
 
@@ -73,106 +74,119 @@ describe('Auth Effects', () => {
       const target = '/';
       service.resetPasswordWithRedirect.mockReturnValue(EMPTY);
 
-      actions$ = hot('a', { a: resetPassword({ returnUrl: target }) });
+      actions$ = of(resetPassword({ returnUrl: target }));
 
-      expect(effects.passwordReset$).toSatisfyOnFlush(() => {
-        expect(service.resetPasswordWithRedirect).toBeCalledWith({ target });
-      });
+      subscribeSpyTo(effects.passwordReset$);
+
+      expect(service.resetPasswordWithRedirect).toBeCalledWith({ target });
     });
   });
 
   describe('sign in completed', () => {
     it('should sign in the user', () => {
-      actions$ = hot('a', { a: signInCompleted({ state, user }) });
+      actions$ = of(signInCompleted({ state, user }));
 
-      const expected = cold('c', { c: signedIn({ user }) });
-      expect(effects.signInCompleted$).toBeObservable(expected);
+      const spy = subscribeSpyTo(effects.signInCompleted$);
+
+      expect(spy.getLastValue()).toEqual(signedIn({ user }));
     });
 
     it('should sign out on password reset', () => {
       const target = '/';
 
-      actions$ = hot('a', { a: signInCompleted({ state: { target, passwordReset: true }, user }) });
+      actions$ = of(signInCompleted({ state: { target, passwordReset: true }, user }));
 
-      const expected = cold('c', { c: signOut() });
-      expect(effects.signInCompleted$).toBeObservable(expected);
+      const spy = subscribeSpyTo(effects.signInCompleted$);
+
+      expect(spy.getLastValue()).toEqual(signOut());
     });
 
     it('should navigate to target url', () => {
       router.navigateByUrl.mockReturnValue(Promise.resolve(true));
 
-      actions$ = hot('a', { a: signInCompleted({ state, user }) });
+      actions$ = of(signInCompleted({ state, user }));
 
-      expect(effects.redirect$).toSatisfyOnFlush(() =>
-        expect(router.navigateByUrl).toHaveBeenCalledWith(state.target, expect.objectContaining({ replaceUrl: true }))
-      );
+      subscribeSpyTo(effects.redirect$);
+
+      expect(router.navigateByUrl).toHaveBeenCalledWith(state.target, expect.objectContaining({ replaceUrl: true }));
     });
   });
 
   describe('sign out', () => {
-    it('signs out on authorization server', () => {
-      actions$ = hot('a', { a: signOut() });
+    beforeEach(() => {
+      actions$ = of(signOut());
+    });
 
-      expect(effects.signOut$).toSatisfyOnFlush(() => expect(service.logout).toHaveBeenCalledTimes(1));
+    it('signs out on authorization server', () => {
+      subscribeSpyTo(effects.signOut$);
+
+      expect(service.logout).toHaveBeenCalledTimes(1);
     });
 
     it('signs user out', () => {
-      service.logout.mockReturnValue(cold('a|', { a: {} }));
+      service.logout.mockReturnValue(of(undefined));
 
-      actions$ = hot('a', { a: signOut() });
+      const spy = subscribeSpyTo(effects.signOut$);
 
-      const expected = cold('c', { c: signedOut() });
-      expect(effects.signOut$).toBeObservable(expected);
+      expect(spy.getLastValue()).toEqual(signedOut());
     });
 
     it('signs user out on failure', () => {
-      service.logout.mockReturnValue(cold('#', {}, error));
+      service.logout.mockReturnValue(throwError(() => error));
 
-      actions$ = hot('a', { a: signOut() });
+      const spy = subscribeSpyTo(effects.signOut$);
 
-      const expected = cold('c', { c: signedOut() });
-      expect(effects.signOut$).toBeObservable(expected);
+      expect(spy.getLastValue()).toEqual(signedOut());
     });
   });
 
   describe('app start', () => {
-    it('signs authenticated user in', () => {
-      service.checkSession.mockReturnValue(cold('a|', { a: user }));
+    beforeEach(() => {
+      actions$ = of(init());
+    });
 
-      const expected = cold('c|', { c: signedIn({ user }) });
-      expect(effects.init$({ scheduler: Scheduler.get() })).toBeObservable(expected);
+    it('signs authenticated user in', () => {
+      service.checkSession.mockReturnValue(of(user));
+
+      const spy = subscribeSpyTo(effects.init$);
+
+      expect(spy.getLastValue()).toEqual(signedIn({ user }));
     });
 
     it('handles sign in failures', () => {
-      service.checkSession.mockReturnValue(cold('#', {}, error));
+      service.checkSession.mockReturnValue(throwError(() => error));
 
-      const expected = cold('(c|)', { c: signInFailed({ error }) });
-      expect(effects.init$({ scheduler: Scheduler.get() })).toBeObservable(expected);
+      const spy = subscribeSpyTo(effects.init$);
+
+      expect(spy.getLastValue()).toEqual(signInFailed({ error }));
     });
 
     it('does nothing when there is no authenticated user', () => {
-      service.checkSession.mockReturnValue(cold('a|', { a: undefined }));
+      service.checkSession.mockReturnValue(of(undefined));
 
-      const expected = cold('c|', { c: signedOut() });
-      expect(effects.init$({ scheduler: Scheduler.get() })).toBeObservable(expected);
+      const spy = subscribeSpyTo(effects.init$);
+
+      expect(spy.getLastValue()).toEqual(signedOut());
     });
 
     it('handles successfull redirects', () => {
-      service.handleRedirectCallback.mockReturnValue(cold('a|', { a: { state, user } }));
+      service.handleRedirectCallback.mockReturnValue(of({ state, user }));
 
       window.history.pushState({}, 'title', '#code=&state=');
 
-      const expected = cold('c|', { c: signInCompleted({ state, user }) });
-      expect(effects.init$({ scheduler: Scheduler.get() })).toBeObservable(expected);
+      const spy = subscribeSpyTo(effects.init$);
+
+      expect(spy.getLastValue()).toEqual(signInCompleted({ state, user }));
     });
 
     it('handles failed redirects', () => {
-      service.handleRedirectCallback.mockReturnValue(cold('#', {}, error));
+      service.handleRedirectCallback.mockReturnValue(throwError(() => error));
 
       window.history.pushState({}, 'title', '#error=&error_description=');
 
-      const expected = cold('(c|)', { c: signInFailed({ error }) });
-      expect(effects.init$({ scheduler: Scheduler.get() })).toBeObservable(expected);
+      const spy = subscribeSpyTo(effects.init$);
+
+      expect(spy.getLastValue()).toEqual(signInFailed({ error }));
     });
   });
 
@@ -180,10 +194,11 @@ describe('Auth Effects', () => {
     it('handles forgotten password error', () => {
       const accessDenied = new AuthError('access_denied', 'AADB2C90118%3a+The+user+has+forgotten+their+password.');
 
-      actions$ = hot('a', { a: signInFailed({ error: accessDenied }) });
+      actions$ = of(signInFailed({ error: accessDenied }));
 
-      const expected = cold('c', { c: resetPassword({ returnUrl: '/' }) });
-      expect(effects.resetPassword$).toBeObservable(expected);
+      const spy = subscribeSpyTo(effects.resetPassword$);
+
+      expect(spy.getLastValue()).toEqual(resetPassword({ returnUrl: '/' }));
     });
   });
 });
