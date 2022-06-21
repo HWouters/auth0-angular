@@ -18,7 +18,8 @@
 	"extensions": [
 		"orta.vscode-jest",
 		"angular.ng-template",
-		"mhutchie.git-graph"
+		"mhutchie.git-graph",
+		"esbenp.prettier-vscode"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

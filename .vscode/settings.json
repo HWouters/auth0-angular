@@ -1,0 +1,19 @@
+{
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.organizeImports": true
+    },
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "editor.formatOnSave": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "files.eol": "\n",
+  "git.rebaseWhenSync": true
+}
