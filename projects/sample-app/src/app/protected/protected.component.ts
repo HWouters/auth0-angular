@@ -3,6 +3,7 @@ import { map } from 'rxjs/operators';
 import { EchoApiService } from '../echo-api.service';
 
 @Component({
+  standalone: true,
   selector: 'app-protected',
   templateUrl: './protected.component.html',
   styles: [],

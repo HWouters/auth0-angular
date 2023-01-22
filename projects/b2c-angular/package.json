@@ -1,6 +1,6 @@
 {
   "name": "@thecla/b2c-angular",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "author": "Hendrik Wouters",
   "description": "Angular module using NGRX to authenticate with Azure AD B2C",
   "repository": {
@@ -19,12 +19,12 @@
   },
   "homepage": "https://github.com/hwouters/auth0-angular#readme",
   "peerDependencies": {
-    "@angular/common": "^14.0.0",
-    "@angular/core": "^14.0.0",
-    "@angular/router": "^14.0.0",
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.1.1",
+    "@angular/router": "^15.0.0",
     "@azure/msal-browser": "^2.7.0",
-    "@ngrx/effects": "^14.0.0",
-    "@ngrx/store": "^14.0.0"
+    "@ngrx/effects": "^15.0.0",
+    "@ngrx/store": "^15.0.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"

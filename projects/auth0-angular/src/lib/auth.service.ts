@@ -12,11 +12,13 @@ export class AuthService {
 
   public constructor(private readonly config: AuthConfig) {
     this.auth0 = new Auth0Client({
-      audience: config.audience,
-      client_id: config.clientId,
+      clientId: config.clientId,
+      authorizationParams: {
+        audience: config.audience,
+        redirect_uri: config.redirectUri ?? location.origin,
+        scope: config.scope,
+      },
       domain: config.domain,
-      redirect_uri: config.redirectUri ?? location.origin,
-      scope: config.scope,
       useRefreshTokens: config.useRefreshTokens,
       sessionCheckExpiryDays: config.sessionCheckExpiryDays,
     });
@@ -43,7 +45,9 @@ export class AuthService {
   }
 
   public logout() {
-    this.auth0.logout({ returnTo: this.config.logoutUri ?? location.origin });
+    this.auth0.logout({
+      logoutParams: { returnTo: this.config.logoutUri ?? location.origin },
+    });
   }
 
   private async checkSession() {

@@ -1,13 +1,26 @@
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
+import { provideEffects } from '@ngrx/effects';
+import { provideStore } from '@ngrx/store';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { jwtInterceptor, provideAuth } from '@thecla/auth-angular';
+import { appRoutes } from './app/app-routes';
+import { AppComponent } from './app/app.component';
+import { authConfig, environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(appRoutes),
+    provideHttpClient(withInterceptors([jwtInterceptor])),
+    provideStore(),
+    provideEffects(),
+    provideStoreDevtools(),
+    provideAuth(authConfig),
+  ],
+}).catch(err => console.error(err));
