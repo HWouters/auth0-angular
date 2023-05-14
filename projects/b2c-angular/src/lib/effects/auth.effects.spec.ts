@@ -7,12 +7,12 @@ import { EMPTY, Observable, of, throwError } from 'rxjs';
 import {
   init,
   resetPassword,
-  signedIn,
-  signedOut,
   signIn,
   signInCompleted,
   signInFailed,
   signOut,
+  signedIn,
+  signedOut,
 } from '../actions/auth.actions';
 import { AuthService } from '../auth.service';
 import { AuthEffects } from './auth.effects';
@@ -65,7 +65,7 @@ describe('Auth Effects', () => {
 
       subscribeSpyTo(effects.signIn$);
 
-      expect(service.loginWithRedirect).toBeCalledWith({ target });
+      expect(service.loginWithRedirect).toHaveBeenCalledWith({ target });
     });
   });
 
@@ -78,7 +78,7 @@ describe('Auth Effects', () => {
 
       subscribeSpyTo(effects.passwordReset$);
 
-      expect(service.resetPasswordWithRedirect).toBeCalledWith({ target });
+      expect(service.resetPasswordWithRedirect).toHaveBeenCalledWith({ target });
     });
   });
 

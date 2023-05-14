@@ -55,7 +55,7 @@ describe('Auth Effects', () => {
 
       subscribeSpyTo(effects.signIn$);
 
-      expect(service.loginWithRedirect).toBeCalledWith({ target });
+      expect(service.loginWithRedirect).toHaveBeenCalledWith({ target });
     });
   });
 

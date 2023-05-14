@@ -1,6 +1,6 @@
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
-import { getMockStore, MockStore } from '@ngrx/store/testing';
+import { MockStore, createMockStore } from '@ngrx/store/testing';
 import { signIn } from './actions/auth.actions';
 import { AuthGuard } from './auth.guard';
 import { selectState } from './store';
@@ -14,7 +14,7 @@ describe('Auth Guard', () => {
   let guard: AuthGuard;
 
   beforeEach(() => {
-    store = getMockStore({ initialState });
+    store = createMockStore({ initialState });
     guard = new AuthGuard(store);
 
     jest.spyOn(store, 'dispatch');

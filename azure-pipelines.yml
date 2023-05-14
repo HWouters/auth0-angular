@@ -13,12 +13,12 @@ stages:
           - task: NodeTool@0
             displayName: install node
             inputs:
-              versionSpec: 16.x
+              versionSpec: 18.x
 
           - task: Npm@1
             displayName: npm install
             inputs:
-              command: install
+              command: ci
 
           - task: Npm@1
             displayName: formatting
