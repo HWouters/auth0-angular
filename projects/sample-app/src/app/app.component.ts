@@ -5,7 +5,15 @@ import { RouterLinkWithHref, RouterOutlet } from '@angular/router';
   standalone: true,
   selector: 'app-root',
   imports: [RouterOutlet, RouterLinkWithHref],
-  templateUrl: './app.component.html',
-  styles: [],
+  template: `
+    <h1>Auth0 authentication sample app</h1>
+    <nav>
+      <ul>
+        <li><a routerLink="/">Home</a></li>
+        <li><a routerLink="/protected">Protected</a></li>
+      </ul>
+    </nav>
+    <router-outlet></router-outlet>
+  `,
 })
 export class AppComponent {}

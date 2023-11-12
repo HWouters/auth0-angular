@@ -12,9 +12,9 @@ export class AuthEffects implements OnInitEffects {
     () =>
       this.actions$.pipe(
         ofType(signIn),
-        switchMap(action => this.auth.loginWithRedirect({ target: action.returnUrl }))
+        switchMap(action => this.auth.loginWithRedirect({ target: action.returnUrl })),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   public readonly signInCompleted$ = createEffect(() =>
@@ -23,19 +23,19 @@ export class AuthEffects implements OnInitEffects {
       switchMap(() =>
         this.auth.getUser().pipe(
           map(user => signedIn({ user })),
-          catchError(error => of(signInFailed({ error })))
-        )
-      )
-    )
+          catchError(error => of(signInFailed({ error }))),
+        ),
+      ),
+    ),
   );
 
   public readonly redirect$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(signInCompleted),
-        switchMap(action => this.router.navigateByUrl(action.state.target, { replaceUrl: true }))
+        switchMap(action => this.router.navigateByUrl(action.state.target, { replaceUrl: true })),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   public readonly signOut$ = createEffect(() =>
@@ -46,8 +46,8 @@ export class AuthEffects implements OnInitEffects {
           this.auth.logout();
         } catch {}
       }),
-      map(() => signedOut())
-    )
+      map(() => signedOut()),
+    ),
   );
 
   public readonly init$ = createEffect(() =>
@@ -61,17 +61,17 @@ export class AuthEffects implements OnInitEffects {
         } else {
           return this.auth.isAuthenticated().pipe(
             switchMap(auth => this.getAuthResult(auth)),
-            catchError(error => of(signInFailed({ error })))
+            catchError(error => of(signInFailed({ error }))),
           );
         }
-      })
-    )
+      }),
+    ),
   );
 
   public constructor(
     private readonly actions$: Actions,
     private readonly auth: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   public ngrxOnInitEffects() {
@@ -89,7 +89,7 @@ export class AuthEffects implements OnInitEffects {
   private completeSignIn() {
     return this.auth.handleRedirectCallback().pipe(
       map(state => signInCompleted({ state })),
-      catchError(error => of(signInFailed({ error })))
+      catchError(error => of(signInFailed({ error }))),
     );
   }
 }

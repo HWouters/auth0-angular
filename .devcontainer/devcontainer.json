@@ -13,7 +13,13 @@
   "customizations": {
     "vscode": {
       "settings": {},
-      "extensions": ["orta.vscode-jest", "angular.ng-template", "mhutchie.git-graph", "esbenp.prettier-vscode"]
+      "extensions": [
+        "orta.vscode-jest",
+        "angular.ng-template",
+        "mhutchie.git-graph",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker"
+      ]
     }
   },
   "forwardPorts": [4200],

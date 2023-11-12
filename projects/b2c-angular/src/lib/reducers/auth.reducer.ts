@@ -21,7 +21,7 @@ const authReducer = createReducer(
     user,
   })),
   on(signedOut, _ => noAuthentication),
-  on(signInFailed, _ => noAuthentication)
+  on(signInFailed, _ => noAuthentication),
 );
 
 export function reducer(state: State | undefined, action: Action) {

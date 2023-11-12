@@ -69,12 +69,12 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/sample-app",
             "index": "projects/sample-app/src/index.html",
-            "main": "projects/sample-app/src/main.ts",
-            "polyfills": "projects/sample-app/src/polyfills.ts",
+            "browser": "projects/sample-app/src/main.ts",
+            "polyfills": ["projects/sample-app/src/polyfills.ts"],
             "tsConfig": "projects/sample-app/tsconfig.app.json",
             "assets": [
               "projects/sample-app/src/favicon.ico",
@@ -84,9 +84,7 @@
               "projects/sample-app/src/styles.css"
             ],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true
@@ -104,8 +102,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -124,19 +120,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "sample-app:build",
-            "proxyConfig": "proxy.config.json"
+            "proxyConfig": "proxy.config.json",
+            "buildTarget": "sample-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "sample-app:build:production"
+              "buildTarget": "sample-app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "sample-app:build"
+            "buildTarget": "sample-app:build"
           }
         },
         "lint": {

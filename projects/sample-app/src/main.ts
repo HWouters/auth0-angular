@@ -20,7 +20,7 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(withInterceptors([jwtInterceptor])),
     provideStore(),
     provideEffects(),
-    provideStoreDevtools(),
+    provideStoreDevtools({ connectInZone: true }),
     provideAuth(authConfig),
   ],
 }).catch(err => console.error(err));

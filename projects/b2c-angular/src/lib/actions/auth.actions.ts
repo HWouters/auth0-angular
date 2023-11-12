@@ -9,7 +9,7 @@ export const signInRedirected = createAction('[@thecla/b2c-angular] sign in redi
 
 export const signInCompleted = createAction(
   '[@thecla/b2c-angular] sign in completed',
-  props<{ state: { target: string; passwordReset: boolean }; user: Profile }>()
+  props<{ state: { target: string; passwordReset: boolean }; user: Profile }>(),
 );
 
 export const signedIn = createAction('[@thecla/b2c-angular] signed in', props<{ user: Profile }>());

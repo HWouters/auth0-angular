@@ -7,7 +7,7 @@ export const signIn = createAction('[@thecla/auth0-angular] sign in', props<{ re
 
 export const signInCompleted = createAction(
   '[@thecla/auth0-angular] sign in completed',
-  props<{ state: { target: string } }>()
+  props<{ state: { target: string } }>(),
 );
 
 export const signedIn = createAction('[@thecla/auth0-angular] signed in', props<{ user: Profile }>());

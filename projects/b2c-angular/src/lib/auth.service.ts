@@ -33,7 +33,7 @@ export class AuthService {
       this.clientApplication.loginRedirect({
         scopes: this.config.scopes,
         state: JSON.stringify({ ...state, passwordReset: false }),
-      })
+      }),
     );
   }
 
@@ -44,7 +44,7 @@ export class AuthService {
         scopes: this.config.scopes,
         state: JSON.stringify({ ...state, passwordReset: true }),
         prompt: 'login',
-      })
+      }),
     );
   }
 
@@ -54,7 +54,7 @@ export class AuthService {
       map(result => ({
         state: result.state ? JSON.parse(result.state) : undefined,
         user: { sub: result.uniqueId, ...result.idTokenClaims },
-      }))
+      })),
     );
   }
 
@@ -76,7 +76,7 @@ export class AuthService {
     if (accounts.length === 1) {
       return from(this.clientApplication.acquireTokenSilent({ account: accounts[0], scopes })).pipe(
         map(result => ({ sub: result.uniqueId, ...result.idTokenClaims })),
-        catchError(error => (error instanceof InteractionRequiredAuthError ? of(undefined) : throwError(error)))
+        catchError(error => (error instanceof InteractionRequiredAuthError ? of(undefined) : throwError(error))),
       );
     } else {
       return of(undefined);

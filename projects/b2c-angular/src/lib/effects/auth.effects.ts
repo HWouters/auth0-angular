@@ -25,10 +25,10 @@ export class AuthEffects implements OnInitEffects {
       switchMap(action =>
         this.auth.loginWithRedirect({ target: action.returnUrl }).pipe(
           map(() => signInRedirected()),
-          catchError(error => of(signInFailed({ error })))
-        )
-      )
-    )
+          catchError(error => of(signInFailed({ error }))),
+        ),
+      ),
+    ),
   );
 
   public readonly passwordReset$ = createEffect(() =>
@@ -37,26 +37,26 @@ export class AuthEffects implements OnInitEffects {
       switchMap(action =>
         this.auth.resetPasswordWithRedirect({ target: action.returnUrl }).pipe(
           map(() => signInRedirected()),
-          catchError(error => of(signInFailed({ error })))
-        )
-      )
-    )
+          catchError(error => of(signInFailed({ error }))),
+        ),
+      ),
+    ),
   );
 
   public readonly signInCompleted$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signInCompleted),
-      map(({ state, user }) => (state.passwordReset ? signOut() : signedIn({ user })))
-    )
+      map(({ state, user }) => (state.passwordReset ? signOut() : signedIn({ user }))),
+    ),
   );
 
   public readonly redirect$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(signInCompleted),
-        switchMap(action => this.router.navigateByUrl(action.state.target, { replaceUrl: true }))
+        switchMap(action => this.router.navigateByUrl(action.state.target, { replaceUrl: true })),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   public readonly signOut$ = createEffect(() =>
@@ -65,10 +65,10 @@ export class AuthEffects implements OnInitEffects {
       switchMap(_ =>
         this.auth.logout().pipe(
           map(() => signedOut()),
-          catchError(() => of(signedOut()))
-        )
-      )
-    )
+          catchError(() => of(signedOut())),
+        ),
+      ),
+    ),
   );
 
   public readonly init$ = createEffect(() =>
@@ -85,11 +85,11 @@ export class AuthEffects implements OnInitEffects {
         } else {
           return this.auth.checkSession().pipe(
             map(user => this.getAuthResult(user)),
-            catchError(error => of(signInFailed({ error })))
+            catchError(error => of(signInFailed({ error }))),
           );
         }
-      })
-    )
+      }),
+    ),
   );
 
   public readonly resetPassword$ = createEffect(() =>
@@ -98,8 +98,8 @@ export class AuthEffects implements OnInitEffects {
       filter(action => action.error instanceof AuthError),
       map(action => action.error as AuthError),
       filter(AuthEffects.isForgotPasswordError),
-      map(() => resetPassword({ returnUrl: '/' }))
-    )
+      map(() => resetPassword({ returnUrl: '/' })),
+    ),
   );
 
   public readonly failed$ = createEffect(() =>
@@ -108,14 +108,14 @@ export class AuthEffects implements OnInitEffects {
       filter(action => action.error instanceof AuthError),
       map(action => action.error as AuthError),
       filter(AuthEffects.isInteractionInProgress),
-      map(() => signOut())
-    )
+      map(() => signOut()),
+    ),
   );
 
   public constructor(
     private readonly actions$: Actions,
     private readonly auth: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   public ngrxOnInitEffects() {
@@ -141,7 +141,7 @@ export class AuthEffects implements OnInitEffects {
   private completeSignIn() {
     return this.auth.handleRedirectCallback().pipe(
       map(result => signInCompleted({ state: result.state, user: result.user })),
-      catchError(error => of(signInFailed({ error })))
+      catchError(error => of(signInFailed({ error }))),
     );
   }
 }

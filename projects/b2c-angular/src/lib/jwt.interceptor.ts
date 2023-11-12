@@ -16,7 +16,7 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
       .getAccessToken()
       .pipe(
         map(token => request.clone({ setHeaders: { Authorization: `Bearer ${token}` } })),
-        mergeMap(authorizedRequest => next(authorizedRequest))
+        mergeMap(authorizedRequest => next(authorizedRequest)),
       );
   } else {
     return next(request);

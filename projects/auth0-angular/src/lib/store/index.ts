@@ -10,11 +10,11 @@ export const selectState = createFeatureSelector<State>(featureKey);
 export const isAuthenticated = pipe(
   select(selectState),
   filter(state => !state.authenticating),
-  map(state => state.authenticated)
+  map(state => state.authenticated),
 );
 
 export const getUser = pipe(
   select(selectState),
   filter(state => !state.authenticating),
-  map(state => state.user)
+  map(state => state.user),
 );
