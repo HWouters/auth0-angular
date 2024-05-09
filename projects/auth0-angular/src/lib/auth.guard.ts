@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { first, tap } from 'rxjs/operators';
-import { signIn } from './actions/auth.actions';
-import { isAuthenticated } from './store';
+import { signIn } from './auth.actions';
+import { isAuthenticated } from './auth.selectors';
 
 @Injectable({
   providedIn: 'root',

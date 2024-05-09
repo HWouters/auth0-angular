@@ -1,9 +1,9 @@
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
 import { MockStore, createMockStore } from '@ngrx/store/testing';
-import { signIn } from './actions/auth.actions';
+import { signIn } from './auth.actions';
 import { AuthGuard } from './auth.guard';
-import { selectState } from './store';
+import { selectAuthState } from './auth.reducer';
 
 describe('Auth Guard', () => {
   const initialState = { loggedIn: false };
@@ -22,7 +22,7 @@ describe('Auth Guard', () => {
 
   describe('authenticated', () => {
     it('can activate', () => {
-      store.overrideSelector(selectState, { authenticating: false, authenticated: true });
+      store.overrideSelector(selectAuthState, { authenticating: false, authenticated: true, user: undefined });
 
       const spy = subscribeSpyTo(guard.canActivate(next, state));
 
@@ -32,7 +32,7 @@ describe('Auth Guard', () => {
 
   describe('not authenticated', () => {
     it('dispatches signin action', () => {
-      store.overrideSelector(selectState, { authenticating: false, authenticated: false });
+      store.overrideSelector(selectAuthState, { authenticating: false, authenticated: false, user: undefined });
 
       subscribeSpyTo(guard.canActivate(next, state));
 
@@ -42,7 +42,7 @@ describe('Auth Guard', () => {
 
   describe('authenticating', () => {
     it('does not dispatch signin action', () => {
-      store.overrideSelector(selectState, { authenticating: true, authenticated: false });
+      store.overrideSelector(selectAuthState, { authenticating: true, authenticated: false, user: undefined });
 
       subscribeSpyTo(guard.canActivate(next, state));
 

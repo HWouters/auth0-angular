@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Profile } from '../state/auth.state';
+import { Profile } from './auth.reducer';
 
 export const init = createAction('[@thecla/auth0-angular] init');
 

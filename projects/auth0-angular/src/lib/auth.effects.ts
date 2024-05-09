@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { init, signedIn, signedOut, signIn, signInCompleted, signInFailed, signOut } from '../actions/auth.actions';
-import { AuthService } from '../auth.service';
+import { init, signedIn, signedOut, signIn, signInCompleted, signInFailed, signOut } from './auth.actions';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {

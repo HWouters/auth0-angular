@@ -2,13 +2,12 @@ import { makeEnvironmentProviders } from '@angular/core';
 import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
 import { AuthConfig } from './auth-config';
-import { AuthEffects } from './effects/auth.effects';
-import { reducer } from './reducers/auth.reducer';
-import { featureKey } from './store';
+import { AuthEffects } from './auth.effects';
+import { authFeature } from './auth.reducer';
 
 export function provideAuth(config: AuthConfig) {
   const effects = provideEffects(AuthEffects);
-  const state = provideState(featureKey, reducer);
+  const state = provideState(authFeature);
 
   return makeEnvironmentProviders([
     effects,

@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
-import { init, signedIn, signedOut, signIn, signInCompleted, signInFailed, signOut } from '../actions/auth.actions';
-import { AuthService } from '../auth.service';
+import { init, signIn, signInCompleted, signInFailed, signOut, signedIn, signedOut } from './auth.actions';
+import { AuthService } from './auth.service';
 import { AuthEffects } from './auth.effects';
 
 describe('Auth Effects', () => {

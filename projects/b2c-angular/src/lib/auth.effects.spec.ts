@@ -13,9 +13,9 @@ import {
   signOut,
   signedIn,
   signedOut,
-} from '../actions/auth.actions';
-import { AuthService } from '../auth.service';
+} from './auth.actions';
 import { AuthEffects } from './auth.effects';
+import { AuthService } from './auth.service';
 
 describe('Auth Effects', () => {
   const error = new AuthError('code', 'message');

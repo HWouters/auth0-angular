@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthError, BrowserAuthErrorMessage } from '@azure/msal-browser';
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Actions, OnInitEffects, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import {
   init,
   resetPassword,
-  signedIn,
-  signedOut,
   signIn,
   signInCompleted,
   signInFailed,
   signInRedirected,
   signOut,
-} from '../actions/auth.actions';
-import { AuthService } from '../auth.service';
+  signedIn,
+  signedOut,
+} from './auth.actions';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {

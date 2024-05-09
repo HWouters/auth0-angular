@@ -1,4 +1,4 @@
-import { signedIn, signedOut, signInFailed } from '../actions/auth.actions';
+import { signedIn, signedOut, signInFailed } from './auth.actions';
 import { noAuthentication, reducer, startAuthentication } from './auth.reducer';
 
 describe('auth reducer', () => {
@@ -11,7 +11,7 @@ describe('auth reducer', () => {
     });
   });
 
-  describe('Signed In', () => {
+  describe('Signed in', () => {
     const sub = 'id';
     const name = 'name';
     const email = 'a.b@mail.com';

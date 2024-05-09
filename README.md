@@ -42,20 +42,20 @@ npm install @thecla/b2c-angular
 Import `AuthModule` from `@thecla/auth0-angular` in the app module:
 
 ```js
-const auth0Config = {
+const config = {
   audience: '',
   domain: '',
   clientId: '',
   scope: 'openid profile',
 };
 
-AuthModule.forRoot(auth0Config);
+AuthModule.forRoot(config);
 ```
 
 or 
 
 ```js
-const b2cConfig = {
+const config = {
   clientId: '',
   authority: 'https://{name}.b2clogin.com/{tenantid}',
   signInPolicy: 'B2C_1A_XXXXXXX',
@@ -64,7 +64,7 @@ const b2cConfig = {
   scopes: [],
 };
 
-AuthModule.forRoot(auth0Config);
+AuthModule.forRoot(config);
 ```
 
 ### Sign in

@@ -1,16 +1,14 @@
-import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getUser, signIn, signOut } from '@thecla/auth-angular';
+import { getUserSignal, signIn, signOut } from '@thecla/auth-angular';
 
 @Component({
   standalone: true,
   selector: 'app-home',
-  imports: [AsyncPipe],
   template: `
-    @if (user$ | async; as user) {
+    @if (user(); as user) {
       <div>
-        <p>Welcome {{ user?.name }}</p>
+        <p>Welcome {{ user.name }}</p>
         <button (click)="logout()">Logout</button>
       </div>
     } @else {
@@ -19,7 +17,7 @@ import { getUser, signIn, signOut } from '@thecla/auth-angular';
   `,
 })
 export class HomeComponent {
-  public user$ = this.store.pipe(getUser);
+  public user = getUserSignal();
 
   public constructor(private readonly store: Store) {}
 

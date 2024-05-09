@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterLinkWithHref, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLinkWithHref],
+  imports: [RouterOutlet, RouterLink],
   template: `
     <h1>Auth0 authentication sample app</h1>
     <nav>
