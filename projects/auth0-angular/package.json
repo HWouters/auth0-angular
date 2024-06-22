@@ -1,6 +1,6 @@
 {
   "name": "@thecla/auth0-angular",
-  "version": "9.1.0",
+  "version": "10.0.0",
   "author": "Hendrik Wouters",
   "description": "Angular module using NGRX to authenticate with Auth0",
   "repository": {
@@ -18,11 +18,12 @@
   },
   "homepage": "https://github.com/hwouters/auth0-angular#readme",
   "peerDependencies": {
-    "@angular/common": "^17.0.0",
-    "@angular/core": "^17.0.0",
-    "@angular/router": "^17.0.0",
-    "@ngrx/effects": "^17.0.0",
-    "@ngrx/store": "^17.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/router": "^18.0.0",
+    "@ngrx/effects": "^18.0.0",
+    "@ngrx/operators": "^18.0.0",
+    "@ngrx/store": "^18.0.0",
     "@auth0/auth0-spa-js": "^2.0.0"
   },
   "dependencies": {

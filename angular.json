@@ -74,7 +74,6 @@
             "outputPath": "dist/sample-app",
             "index": "projects/sample-app/src/index.html",
             "browser": "projects/sample-app/src/main.ts",
-            "polyfills": ["projects/sample-app/src/polyfills.ts"],
             "tsConfig": "projects/sample-app/tsconfig.app.json",
             "assets": [
               "projects/sample-app/src/favicon.ico",

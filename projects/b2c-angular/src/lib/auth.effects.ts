@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthError, BrowserAuthErrorMessage } from '@azure/msal-browser';
+import { AuthError, BrowserAuthErrorCodes } from '@azure/msal-browser';
 import { Actions, OnInitEffects, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
@@ -127,7 +127,7 @@ export class AuthEffects implements OnInitEffects {
   }
 
   private static isInteractionInProgress(error: AuthError) {
-    return error.errorCode === BrowserAuthErrorMessage.interactionInProgress.code;
+    return error.errorCode === BrowserAuthErrorCodes.interactionInProgress;
   }
 
   private getAuthResult(user: { sub: string } | undefined) {
