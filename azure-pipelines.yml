@@ -13,7 +13,7 @@ stages:
           - task: NodeTool@0
             displayName: install node
             inputs:
-              versionSpec: 18.x
+              versionSpec: 22.x
 
           - task: Npm@1
             displayName: npm install

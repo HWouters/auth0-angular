@@ -4,7 +4,6 @@ import { map } from 'rxjs/operators';
 import { EchoApiService } from '../echo-api.service';
 
 @Component({
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-protected',
   imports: [AsyncPipe],

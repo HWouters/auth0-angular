@@ -1,22 +1,18 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "tsconfig.json"
-        ],
+        "project": ["tsconfig.json"],
         "createDefaultProgram": true
       },
       "extends": [
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:jest/recommended",
+        "plugin:@ngrx/all"
       ],
       "rules": {
         "@angular-eslint/component-selector": [
@@ -34,30 +30,15 @@
             "style": "camelCase",
             "type": "attribute"
           }
-        ]
+        ],
+        "@ngrx/prefer-effect-callback-in-block-statement": "off",
+        "@ngrx/on-function-explicit-return-type": "off"
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
-    },
-    {
-      "files": [
-        "*.ts"
-      ],
-      "extends": [
-        "plugin:jest/recommended",
-        "plugin:ngrx/recommended"
-      ],
-      "rules": {
-        "ngrx/prefer-effect-callback-in-block-statement": "off",
-        "ngrx/on-function-explicit-return-type": "off"
-      }
     }
   ]
 }
