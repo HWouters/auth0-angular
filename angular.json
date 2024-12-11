@@ -120,7 +120,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "proxyConfig": "proxy.config.json",
-            "buildTarget": "sample-app:build"
+            "buildTarget": "sample-app:build",
+            "host": "127.0.0.1"
           },
           "configurations": {
             "production": {
