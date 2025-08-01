@@ -2,22 +2,20 @@ import { HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
 import { EMPTY, of } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AuthService } from './auth.service';
 import { jwtInterceptor } from './jwt.interceptor';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 describe('JwtInterceptor', () => {
   const token = 'abcdef';
-  const next = jest.fn().mockReturnValue(EMPTY);
+  const next = vi.fn().mockReturnValue(EMPTY);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: AuthService,
-          useValue: {
-            getAccessToken: jest.fn().mockReturnValue(of(token)),
-          },
-        },
+        provideZonelessChangeDetection(),
+        { provide: AuthService, useValue: { getAccessToken: vi.fn().mockReturnValue(of(token)) } },
       ],
     });
   });

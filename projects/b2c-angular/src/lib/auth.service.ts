@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   AuthenticationResult,
   Configuration,
@@ -13,15 +13,17 @@ import { AuthConfig } from './auth-config';
   providedIn: 'root',
 })
 export class AuthService {
+  private readonly config = inject(AuthConfig);
+
   private readonly clientApplication: PublicClientApplication;
 
-  public constructor(private readonly config: AuthConfig) {
+  public constructor() {
     const msalConfig: Configuration = {
       auth: {
-        clientId: config.clientId,
-        authority: `${config.authority}/${config.signInPolicy}`,
-        knownAuthorities: config.knownAuthorities,
-        redirectUri: config.redirectUri ?? location.origin,
+        clientId: this.config.clientId,
+        authority: `${this.config.authority}/${this.config.signInPolicy}`,
+        knownAuthorities: this.config.knownAuthorities,
+        redirectUri: this.config.redirectUri ?? location.origin,
       },
     };
 

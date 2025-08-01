@@ -38,24 +38,7 @@ stages:
             displayName: test
             inputs:
               command: custom
-              customCommand: run test -- --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura
-            condition: succeededOrFailed()
-
-          - task: PublishTestResults@2
-            displayName: publish test results
-            inputs:
-              testResultsFiles: junit.xml
-              testRunTitle: 'Unit Tests'
-              mergeTestResults: true
-              failTaskOnFailedTests: true
-            condition: succeededOrFailed()
-
-          - task: PublishCodeCoverageResults@2
-            displayName: publish test coverage
-            inputs:
-              codeCoverageTool: Cobertura
-              summaryFileLocation: coverage/cobertura-coverage.xml
-              failIfCoverageEmpty: true
+              customCommand: run test
             condition: succeededOrFailed()
 
           - task: Npm@1

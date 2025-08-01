@@ -18,16 +18,24 @@
           "configurations": {
             "production": {
               "tsConfig": "projects/auth0-angular/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/auth0-angular/tsconfig.lib.json"
             }
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/auth0-angular/**/*.ts",
-              "projects/auth0-angular/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/auth0-angular/**/*.ts", "projects/auth0-angular/**/*.html"]
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/auth0-angular/tsconfig.spec.json",
+            "buildTarget": "::development",
+            "runner": "vitest"
           }
         }
       }
@@ -47,16 +55,24 @@
           "configurations": {
             "production": {
               "tsConfig": "projects/b2c-angular/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/b2c-angular/tsconfig.lib.json"
             }
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/b2c-angular/**/*.ts",
-              "projects/b2c-angular/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/b2c-angular/**/*.ts", "projects/b2c-angular/**/*.html"]
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/b2c-angular/tsconfig.spec.json",
+            "buildTarget": "::development",
+            "runner": "vitest"
           }
         }
       }
@@ -75,13 +91,8 @@
             "index": "projects/sample-app/src/index.html",
             "browser": "projects/sample-app/src/main.ts",
             "tsConfig": "projects/sample-app/tsconfig.app.json",
-            "assets": [
-              "projects/sample-app/src/favicon.ico",
-              "projects/sample-app/src/assets"
-            ],
-            "styles": [
-              "projects/sample-app/src/styles.css"
-            ],
+            "assets": ["projects/sample-app/src/favicon.ico", "projects/sample-app/src/assets"],
+            "styles": ["projects/sample-app/src/styles.css"],
             "scripts": [],
             "extractLicenses": false,
             "sourceMap": true,
@@ -138,10 +149,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/sample-app/**/*.ts",
-              "projects/sample-app/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/sample-app/**/*.ts", "projects/sample-app/**/*.html"]
           }
         }
       }
@@ -149,9 +157,7 @@
   },
   "cli": {
     "analytics": false,
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics"]
   },
   "schematics": {
     "@angular-eslint/schematics:application": {

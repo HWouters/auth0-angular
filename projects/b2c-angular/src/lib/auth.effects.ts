@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthError, BrowserAuthErrorCodes } from '@azure/msal-browser';
 import { Actions, OnInitEffects, createEffect, ofType } from '@ngrx/effects';
@@ -19,6 +19,10 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {
+  private readonly actions$ = inject(Actions);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+
   public readonly signIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signIn),
@@ -111,12 +115,6 @@ export class AuthEffects implements OnInitEffects {
       map(() => signOut()),
     ),
   );
-
-  public constructor(
-    private readonly actions$: Actions,
-    private readonly auth: AuthService,
-    private readonly router: Router,
-  ) {}
 
   public ngrxOnInitEffects() {
     return init();

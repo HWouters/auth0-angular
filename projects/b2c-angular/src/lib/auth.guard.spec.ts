@@ -1,23 +1,30 @@
+import { provideZonelessChangeDetection } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
-import { MockStore, createMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { beforeEach, describe, expect, it, Mocked, vi } from 'vitest';
 import { signIn } from './auth.actions';
 import { AuthGuard } from './auth.guard';
 import { selectAuthState } from './auth.reducer';
 
 describe('Auth Guard', () => {
   const initialState = { loggedIn: false };
-  const next = {} as jest.Mocked<ActivatedRouteSnapshot>;
-  const state = { url: 'path' } as jest.Mocked<RouterStateSnapshot>;
+  const next = {} as Mocked<ActivatedRouteSnapshot>;
+  const state = { url: 'path' } as Mocked<RouterStateSnapshot>;
 
   let store: MockStore;
   let guard: AuthGuard;
 
   beforeEach(() => {
-    store = createMockStore({ initialState });
-    guard = new AuthGuard(store);
+    TestBed.configureTestingModule({
+      providers: [provideZonelessChangeDetection(), provideMockStore({ initialState })],
+    });
 
-    jest.spyOn(store, 'dispatch');
+    store = TestBed.inject(MockStore);
+    guard = TestBed.inject(AuthGuard);
+
+    store.dispatch = vi.fn();
   });
 
   describe('authenticated', () => {

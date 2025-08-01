@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { getUserSignal, signIn, signOut } from '@thecla/auth-angular';
 
@@ -18,9 +18,9 @@ import { getUserSignal, signIn, signOut } from '@thecla/auth-angular';
   `,
 })
 export class HomeComponent {
-  public user = getUserSignal();
+  private readonly store = inject(Store);
 
-  public constructor(private readonly store: Store) {}
+  public user = getUserSignal();
 
   public login() {
     this.store.dispatch(signIn({ returnUrl: '/' }));

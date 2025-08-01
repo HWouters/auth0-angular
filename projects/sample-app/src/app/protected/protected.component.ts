@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { EchoApiService } from '../echo-api.service';
 
@@ -15,11 +15,11 @@ import { EchoApiService } from '../echo-api.service';
   `,
 })
 export class ProtectedComponent {
+  private readonly data = inject(EchoApiService);
+
   public readonly token$ = this.data.get().pipe(
     map(headers => headers.authorization),
     map(token => token.split('.')[1]),
     map(payload => JSON.stringify(JSON.parse(atob(payload)), undefined, 2)),
   );
-
-  public constructor(private readonly data: EchoApiService) {}
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
@@ -8,6 +8,10 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {
+  private readonly actions$ = inject(Actions);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+
   public readonly signIn$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -67,12 +71,6 @@ export class AuthEffects implements OnInitEffects {
       }),
     ),
   );
-
-  public constructor(
-    private readonly actions$: Actions,
-    private readonly auth: AuthService,
-    private readonly router: Router,
-  ) {}
 
   public ngrxOnInitEffects() {
     return init();
