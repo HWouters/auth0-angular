@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { signedIn, signedOut, signInFailed } from './auth.actions';
 import { noAuthentication, reducer, startAuthentication } from './auth.reducer';
 

@@ -1,14 +1,14 @@
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
 import { MockStore, createMockStore } from '@ngrx/store/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { signIn } from './auth.actions';
 import { AuthGuard } from './auth.guard';
 import { selectAuthState } from './auth.reducer';
 
 describe('Auth Guard', () => {
   const initialState = { loggedIn: false };
-  const next = {} as jest.Mocked<ActivatedRouteSnapshot>;
-  const state = { url: 'path' } as jest.Mocked<RouterStateSnapshot>;
+  const next = {} as any; // jest.Mocked<ActivatedRouteSnapshot>;
+  const state = { url: 'path' } as any; //jest.Mocked<RouterStateSnapshot>;
 
   let store: MockStore;
   let guard: AuthGuard;
@@ -17,7 +17,7 @@ describe('Auth Guard', () => {
     store = createMockStore({ initialState });
     guard = new AuthGuard(store);
 
-    jest.spyOn(store, 'dispatch');
+    vi.spyOn(store, 'dispatch');
   });
 
   describe('authenticated', () => {

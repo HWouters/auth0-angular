@@ -7,7 +7,6 @@
     "vscode": {
       "settings": {},
       "extensions": [
-        "orta.vscode-jest",
         "angular.ng-template",
         "mhutchie.git-graph",
         "esbenp.prettier-vscode",

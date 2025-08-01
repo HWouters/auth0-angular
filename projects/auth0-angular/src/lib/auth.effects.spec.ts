@@ -1,11 +1,13 @@
+import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
-import { init, signIn, signInCompleted, signInFailed, signOut, signedIn, signedOut } from './auth.actions';
-import { AuthService } from './auth.service';
+import { beforeEach, describe, expect, it, Mocked, vi } from 'vitest';
+import { init, signedIn, signedOut, signIn, signInCompleted, signInFailed, signOut } from './auth.actions';
 import { AuthEffects } from './auth.effects';
+import { AuthService } from './auth.service';
 
 describe('Auth Effects', () => {
   const error = new Error('message');
@@ -14,36 +16,32 @@ describe('Auth Effects', () => {
 
   let actions$: Observable<any>;
   let effects: AuthEffects;
-  let service: jest.Mocked<AuthService>;
-  let router: jest.Mocked<Router>;
+  let service: Mocked<AuthService>;
+  let router: Mocked<Router>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         AuthEffects,
+        provideZonelessChangeDetection(),
         provideMockActions(() => actions$),
         {
           provide: AuthService,
           useValue: {
-            isAuthenticated: jest.fn(),
-            loginWithRedirect: jest.fn(),
-            handleRedirectCallback: jest.fn(),
-            getUser: jest.fn(),
-            logout: jest.fn(),
+            isAuthenticated: vi.fn(),
+            loginWithRedirect: vi.fn(),
+            handleRedirectCallback: vi.fn(),
+            getUser: vi.fn(),
+            logout: vi.fn(),
           },
         },
-        {
-          provide: Router,
-          useValue: {
-            navigateByUrl: jest.fn(),
-          },
-        },
+        { provide: Router, useValue: { navigateByUrl: vi.fn() } },
       ],
     });
 
     effects = TestBed.inject(AuthEffects);
-    service = TestBed.inject(AuthService) as jest.Mocked<AuthService>;
-    router = TestBed.inject(Router) as jest.Mocked<Router>;
+    service = TestBed.inject(AuthService) as Mocked<AuthService>;
+    router = TestBed.inject(Router) as Mocked<Router>;
   });
 
   describe('sign in', () => {
