@@ -1,4 +1,3 @@
-import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
@@ -23,7 +22,6 @@ describe('Auth Effects', () => {
     TestBed.configureTestingModule({
       providers: [
         AuthEffects,
-        provideZonelessChangeDetection(),
         provideMockActions(() => actions$),
         {
           provide: AuthService,

@@ -1,5 +1,5 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { enableProdMode, provideZonelessChangeDetection } from '@angular/core';
+import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
@@ -16,12 +16,11 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideZonelessChangeDetection(),
     provideRouter(appRoutes),
     provideHttpClient(withInterceptors([jwtInterceptor])),
     provideStore(),
     provideEffects(),
-    provideStoreDevtools({ connectInZone: true }),
+    provideStoreDevtools(),
     provideAuth(authConfig),
   ],
 }).catch(err => console.error(err));

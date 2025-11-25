@@ -1,4 +1,3 @@
-import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
@@ -18,7 +17,7 @@ describe('Auth Guard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideZonelessChangeDetection(), provideMockStore({ initialState })],
+      providers: [provideMockStore({ initialState })],
     });
 
     store = TestBed.inject(MockStore);
