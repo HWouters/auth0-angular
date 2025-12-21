@@ -5,7 +5,7 @@
   "description": "Angular module using NGRX to authenticate with Auth0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hwouters/auth0-angular.git"
+    "url": "git+https://github.com/HWouters/auth0-angular.git"
   },
   "keywords": [
     "ngrx",

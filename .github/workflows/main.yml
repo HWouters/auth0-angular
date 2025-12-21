@@ -1,0 +1,105 @@
+name: Main
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Format
+      if: success() || failure()
+      run: npm run format
+
+    - name: Lint
+      if: success() || failure()
+      run: npm run lint
+
+    - name: Run Tests
+      if: success() || failure()
+      run: npm run test
+
+    - name: Build auth0-angular
+      run: npm run build -- auth0-angular -c production
+
+    - name: Upload auth0-angular
+      uses: actions/upload-artifact@v4
+      with:
+        name: auth0-angular
+        path: dist/auth0-angular
+
+    - name: Build b2c-angular
+      run: npm run build -- b2c-angular -c production
+
+    - name: Upload b2c-angular
+      uses: actions/upload-artifact@v4
+      with:
+        name: b2c-angular
+        path: dist/b2c-angular
+
+  publish-auth0:
+    name: Publish @thecla/auth0-angular
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: npmjs
+      url: https://www.npmjs.com/package/@thecla/auth0-angular
+    steps:
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Download
+        uses: actions/download-artifact@v4
+        with:
+          name: auth0-angular
+          path: auth0-angular
+
+      - name: Publish
+        working-directory: ./auth0-angular
+        run: npm publish 
+
+  publish-b2c:
+    name: Publish @thecla/b2c-angular
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: npmjs
+      url: https://www.npmjs.com/package/@thecla/b2c-angular
+    steps:
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: 'https://registry.npmjs.org'
+              
+      - name: Download b2c-angular
+        uses: actions/download-artifact@v4
+        with:
+          name: b2c-angular
+          path: b2c-angular
+
+      - name: Publish
+        working-directory: ./b2c-angular
+        run: npm publish
