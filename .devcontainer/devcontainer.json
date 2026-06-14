@@ -8,8 +8,9 @@
       "settings": {},
       "extensions": [
         "angular.ng-template",
-        "mhutchie.git-graph",
         "esbenp.prettier-vscode",
+        "github.vscode-github-actions",
+        "mhutchie.git-graph",
         "ms-azuretools.vscode-docker"
       ]
     }

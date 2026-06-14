@@ -27,7 +27,8 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/auth0-angular/**/*.ts", "projects/auth0-angular/**/*.html"]
+            "lintFilePatterns": ["projects/auth0-angular/**/*.ts", "projects/auth0-angular/**/*.html"],
+            "eslintConfig": "projects/auth0-angular/eslint.config.js"
           }
         },
         "test": {
@@ -59,16 +60,12 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/b2c-angular/**/*.ts", "projects/b2c-angular/**/*.html"]
+            "lintFilePatterns": ["projects/b2c-angular/**/*.ts", "projects/b2c-angular/**/*.html"],
+            "eslintConfig": "projects/b2c-angular/eslint.config.js"
           }
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/b2c-angular/tsconfig.spec.json",
-            "buildTarget": "::development",
-            "runner": "vitest"
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     },
@@ -144,7 +141,8 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/sample-app/**/*.ts", "projects/sample-app/**/*.html"]
+            "lintFilePatterns": ["projects/sample-app/**/*.ts", "projects/sample-app/**/*.html"],
+            "eslintConfig": "projects/sample-app/eslint.config.js"
           }
         }
       }

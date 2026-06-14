@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import {
   AuthenticationResult,
   Configuration,
@@ -9,9 +9,7 @@ import { from, of, throwError } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
 import { AuthConfig } from './auth-config';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AuthService {
   private readonly config = inject(AuthConfig);
 

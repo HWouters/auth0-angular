@@ -1,26 +1,19 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
+    "target": "es2025",
+    "module": "esnext",
+    "useDefineForClassFields": false,
     "sourceMap": true,
     "declaration": false,
-    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "module": "es2020",
-    "moduleResolution": "bundler",
     "importHelpers": true,
-    "strict": true,
-    "target": "ES2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "typeRoots": ["node_modules/@types"],
     "paths": {
-      "@thecla/auth-angular": ["dist/auth0-angular"]
-      // "@thecla/auth-angular": ["dist/b2c-angular"]
-    },
-    "useDefineForClassFields": false
+      "@thecla/auth-angular": ["./dist/auth0-angular"]
+      // "@thecla/auth-angular": ["./dist/b2c-angular"]
+    }
   },
   "angularCompilerOptions": {
     "strictTemplates": true,

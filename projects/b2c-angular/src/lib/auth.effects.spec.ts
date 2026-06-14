@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AuthError } from '@azure/msal-browser';
+import { AuthError, ServerError } from '@azure/msal-browser';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
@@ -188,7 +188,11 @@ describe('Auth Effects', () => {
 
   describe('authentication failures', () => {
     it('handles forgotten password error', () => {
-      const accessDenied = new AuthError('access_denied', 'AADB2C90118%3a+The+user+has+forgotten+their+password.');
+      const accessDenied = new ServerError(
+        'access_denied',
+        '',
+        'AADB2C90118%3a+The+user+has+forgotten+their+password.',
+      );
 
       actions$ = of(signInFailed({ error: accessDenied }));
 

@@ -1,12 +1,10 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { Auth0Client, User } from '@auth0/auth0-spa-js';
 import { EMPTY, from, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { AuthConfig } from './auth-config';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AuthService {
   private readonly config = inject(AuthConfig);
 

@@ -66,7 +66,7 @@ export class AuthEffects implements OnInitEffects {
   public readonly signOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signOut),
-      switchMap(_ =>
+      switchMap(() =>
         this.auth.logout().pipe(
           map(() => signedOut()),
           catchError(() => of(signedOut())),

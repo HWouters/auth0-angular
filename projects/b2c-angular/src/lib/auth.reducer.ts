@@ -38,8 +38,8 @@ export const authFeature = createFeature({
       authenticated: true,
       user,
     })),
-    on(signedOut, _ => noAuthentication),
-    on(signInFailed, _ => noAuthentication),
+    on(signedOut, () => noAuthentication),
+    on(signInFailed, () => noAuthentication),
   ),
 });
 

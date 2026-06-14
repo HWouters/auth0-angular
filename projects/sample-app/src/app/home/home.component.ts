@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { getUserSignal, signIn, signOut } from '@thecla/auth-angular';
 
 @Component({
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-home',
   template: `
     @if (user(); as user) {

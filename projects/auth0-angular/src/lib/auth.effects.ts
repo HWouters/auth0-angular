@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
@@ -48,7 +48,9 @@ export class AuthEffects implements OnInitEffects {
       tap(() => {
         try {
           this.auth.logout();
-        } catch {}
+        } catch {
+          // continue regardless of error
+        }
       }),
       map(() => signedOut()),
     ),
